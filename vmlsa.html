@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emba LSA Scheme</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+        }
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 60px;
+            height: auto;
+        }
+        h3 {
+            color: #2575fc;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #444;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            box-shadow: 0 1px 2px rgba(39, 2, 250, 0.8);
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgb(26, 2, 240);
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #007bff, #004080);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #0056b3, #002a50);
+        }
+        .dashboard {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(39, 2, 250, 0.08);
+            border: 1px solid #2575fc;
+            border-radius: 10px;
+        }
+        .dashboard h4 {
+            margin: 0 0 10px;
+            color: #2575fc;
+        }
+        .totals {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #444;
+            font-weight: bold;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard">
+            <h4>Daily Submission Dashboard</h4>
+            <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
+            <p class="totals">Total Fees: GHC <span id="totalFees">0</span></p>
+        </div>
+        <img src="emba.jpg" alt="Emba Logo" class="logo">
+        <form id="expensesForm" action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post" onsubmit="return handleFormSubmit(event)">
+
+            <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
+            <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="VM">
+
+            <label for="AgentName">AGENT NAME</label>
+            <select id="AgentName" name="AGENTNAME" required>
+                <option value="Bernice1">Agent</option>
+                <option value="Bernice1">Agent1</option>
+                <option value="Bernice1">Agent2</option>
+                <option value="Bernice1">Bernice3</option>
+                <option value="Bernice1">Bernice4</option>
+                <option value="Bernice1">Bernice5</option>
+                <option value="Bernice1">Bernice6</option>
+                <option value="Bernice1">Bernice7</option>
+                <option value="Bernice1">Bernice8</option>
+                <option value="Bernice1">Bernice9</option>
+                <option value="Bernice1">Bernice10</option>
+                <option value="Bernice1">Bernice11</option>
+                <option value="Bernice1">Bernice12</option>
+                <option value="Bernice1">Bernice13</option>
+                <option value="Bernice1">Bernice14</option>
+                <option value="Bernice1">Bernice15</option>
+                <option value="Bernice1">Bernice16</option>
+                <option value="Bernice1">Bernice17</option>
+                <option value="Bernice1">Bernice18</option>
+                <option value="Bernice1">Bernice19</option>
+                <option value="Bernice1">Bernice20</option>
+                <option value="Bernice1">Bernice21</option>
+                <option value="Bernice1">Bernice22</option>
+                </select>
+
+            <label for="TYPE">TRANSACTION TYPE</label>
+            <select id="TYPE" name="TYPE" required>
+                <option value="E-CASH">E-CASH</option>
+                <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+                <option value="Others">Others</option>
+            </select>
+
+            <label for="AMOUNT">AMOUNT</label>
+            <input type="number" id="AMOUNT" name="AMOUNT" oninput="calculateFees()" required>
+
+            <label for="FEES">FEES</label>
+            <input type="number" id="FEES" name="FEES" readonly>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        let totalAmount = 0;
+        let totalFees = 0;
+
+        function calculateFees() {
+            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+            const fees = Math.floor(amount / 500); // Calculate 1 fee per every 500
+            document.getElementById('FEES').value = fees;
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent default submission
+            appendTimestamp();
+
+            const form = document.getElementById("expensesForm");
+            const formData = new FormData(form);
+
+            // Post the form data
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    Swal.fire({
+                        title: 'Submission Successful!',
+                        text: 'Your data has been recorded successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Update the dashboard
+                        const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+                        const fees = parseFloat(document.getElementById('FEES').value) || 0;
+
+                        totalAmount += amount;
+                        totalFees += fees;
+
+                        document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+                        document.getElementById('totalFees').textContent = totalFees.toFixed(2);
+
+                        // Reset the form
+                        form.reset();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an error submitting your data. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(() => {
+                Swal.fire({
+                    title: 'Network Error!',
+                    text: 'Unable to connect to the server. Please check your internet connection.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        }
+
+        function appendTimestamp() {
+            const now = new Date();
+            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+            document.getElementById('TIMESTAMP').value = timestamp;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        @keyframes moveBackground {
+            0% { background-position: 0 0; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0 0; }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://th.bing.com/th/id/OIP.fFbFksfa7Oof2IM1OWxzewHaDs?rs=1&pid=ImgDetMain') no-repeat center center/cover;
+            animation: moveBackground 15s infinite linear;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(88, 2, 248, 0.315);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: black;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 111, 97, 0.4);
+        }
+
+        .button:hover {
+            background-color: blue;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(255, 111, 97, 0.6);
+        }
+
+        .button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 15px rgba(255, 111, 97, 0.4);
+        }
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 80px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <img src="emba.jpg" alt="Emba Logo" class="logo">
+    <div class="container">
+        <h1>Welcome to HEAD OFFICE</h1>
+        <div class="buttons">
+            <a href="#" class="button">NEW AGENT LINK</a>
+            <a href="headofficelsa.html" class="button">LSA SUPPORT</a>
+        </div>
+    </div>
+</body>
+</html>
