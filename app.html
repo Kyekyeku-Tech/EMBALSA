@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download App | EMBA NEW LSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #f4f4f9, #e3e8ff);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: #0328f8;
+            color: #fff;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        header img {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            height: 50px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        header:hover h1 {
+            transform: scale(1.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-details {
+            margin-bottom: 20px;
+        }
+
+        .app-details table {
+            width: 100%;
+            border-collapse: collapse;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .app-details td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #3f51b5;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #01030f;
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #3f51b5;
+            color: #fff;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        footer p {
+            margin: 0;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            header img {
+                height: 40px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .download-btn {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="emba.jpg" alt="EMBA Logo">
+        <h1>Download EMBA NEW LSA App</h1>
+    </header>
+
+    <div class="container">
+        <div class="app-details">
+            <table>
+                <tr>
+                    <td><strong>Name:</strong></td>
+                    <td>EMBA NEW LSA</td>
+                </tr>
+                <tr>
+                    <td><strong>Description:</strong></td>
+                    <td>For Daily LSA scheme report</td>
+                </tr>
+            </table>
+        </div>
+
+        <a href="https://apk.e-droid.net/apk/app3410650-b1wdix.apk?v=1" class="download-btn">Download App</a>
+    </div>
+</body>
+</html>
