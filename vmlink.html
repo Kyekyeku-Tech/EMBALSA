@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>De-link</title>
+    <title>New-link</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -37,44 +37,51 @@
             height: auto;
         }
         .toggle-link {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #fc0b03;
-            cursor: pointer;
-        }
-        .toggle-link a {
-            color: inherit;
-            text-decoration: none;
-        }
-        .toggle-link a:hover {
-            text-decoration: underline;
-        }
+      margin-top: 15px;
+      font-size: 14px;
+      color: #fc0b03;
+      cursor: pointer;
+    }
+    .toggle-link a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .toggle-link a:hover {
+      text-decoration: underline;
+    }
     </style>
 </head>
 <body>
     <div class="form-container">
         <img src="emba.jpg" alt="Emba Logo" class="logo">
-        <h1>De-Link Request</h1>
+        <h1>New Agent Link</h1>
         <form id="agentForm" action="https://api.sheetmonkey.io/form/opmHkFsBpH3JYYp8ViLjMR" method="POST">
-            <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="DELINK">
+            <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="VM">
             <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
             <div class="mb-3">
-                <label for="agentName" class="form-label">Agent Name on the scheme:</label>
+                <label for="agentName" class="form-label">Agent Name</label>
                 <input type="text" id="agentName" name="Agent Name" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="personalNumber" class="form-label">Agent Personal Number:</label>
+                <label for="businessName" class="form-label">Business Name</label>
+                <input type="text" id="businessName" name="Business Name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="agentNumber" class="form-label">Agent Number</label>
+                <input type="tel" id="agentNumber" name="Agent Number" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="personalNumber" class="form-label">Personal Number</label>
                 <input type="tel" id="personalNumber" name="Personal Number" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="Branch" class="form-label">Branch:</label>
+                <label for="location" class="form-label">Location</label>
                 <input type="text" id="location" name="Location" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <label for="reason" class="form-label">Reason:</label>
-                <textarea id="reason" name="Reason" class="form-control" rows="4" placeholder="Please provide your reason here..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Request</button>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <div class="toggle-link">
+                <a href="delink.html">Agent want to leave? De-link</a>
+              </div>
         </form>
     </div>
     
