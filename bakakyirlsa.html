@@ -165,72 +165,96 @@
     </div>
 
     <script>
-        let totalAmount = 0;
-        let totalFees = 0;
+        let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
+let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
 
-        function calculateFees() {
-            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-            const fees = Math.floor(amount / 500); // Calculate 1 fee per every 500
-            document.getElementById('FEES').value = fees;
-        }
+document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+document.getElementById('totalFees').textContent = totalFees.toFixed(2);
 
-        function handleFormSubmit(event) {
-            event.preventDefault(); // Prevent default submission
-            appendTimestamp();
+function calculateFees() {
+    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+    const fees = Math.floor(amount / 500); // Calculate 1 fee per every 500
+    document.getElementById('FEES').value = fees;
+}
 
-            const form = document.getElementById("expensesForm");
-            const formData = new FormData(form);
+function handleFormSubmit(event) {
+    event.preventDefault(); // Prevent default submission
+    appendTimestamp();
 
-            // Post the form data
-            fetch(form.action, {
-                method: form.method,
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    Swal.fire({
-                        title: 'Submission Successful!',
-                        text: 'Your data has been recorded successfully.',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        // Update the dashboard
-                        const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-                        const fees = parseFloat(document.getElementById('FEES').value) || 0;
+    const form = document.getElementById("expensesForm");
+    const formData = new FormData(form);
 
-                        totalAmount += amount;
-                        totalFees += fees;
+    // Post the form data
+    fetch(form.action, {
+        method: form.method,
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            Swal.fire({
+                title: 'Submission Successful!',
+                text: 'Your data has been recorded successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Update the dashboard
+                const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+                const fees = parseFloat(document.getElementById('FEES').value) || 0;
 
-                        document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
-                        document.getElementById('totalFees').textContent = totalFees.toFixed(2);
+                totalAmount += amount;
+                totalFees += fees;
 
-                        // Reset the form
-                        form.reset();
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'There was an error submitting your data. Please try again.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            })
-            .catch(() => {
-                Swal.fire({
-                    title: 'Network Error!',
-                    text: 'Unable to connect to the server. Please check your internet connection.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+                // Save to localStorage
+                localStorage.setItem("totalAmount", totalAmount);
+                localStorage.setItem("totalFees", totalFees);
+
+                document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+                document.getElementById('totalFees').textContent = totalFees.toFixed(2);
+
+                // Reset the form
+                form.reset();
+            });
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an error submitting your data. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
             });
         }
+    })
+    .catch(() => {
+        Swal.fire({
+            title: 'Network Error!',
+            text: 'Unable to connect to the server. Please check your internet connection.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
+}
 
-        function appendTimestamp() {
-            const now = new Date();
-            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-            document.getElementById('TIMESTAMP').value = timestamp;
-        }
+function appendTimestamp() {
+    const now = new Date();
+    const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    document.getElementById('TIMESTAMP').value = timestamp;
+}
+
+function scheduleMidnightRefresh() {
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0); // Set to midnight
+
+    const timeUntilMidnight = midnight.getTime() - now.getTime();
+
+    setTimeout(() => {
+        localStorage.removeItem("totalAmount");
+        localStorage.removeItem("totalFees");
+        location.reload(); // Refresh the page at midnight
+    }, timeUntilMidnight);
+}
+
+// Schedule the midnight refresh
+scheduleMidnightRefresh();
     </script>
 </body>
 </html>
