@@ -141,37 +141,46 @@
     </div>
 
     <script>
+      
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();
             const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-
+    
             if (lastUpdateDate !== todayDate) {
-                localStorage.setItem("lastUpdateDate", todayDate);
-                localStorage.removeItem("totalAmount");
-                localStorage.removeItem("totalFees");
-                document.getElementById("totalAmount").textContent = "0.00";
-                document.getElementById("totalFees").textContent = "0.00";
+                resetDashboard();
             } else {
-                const totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
-                const totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
-                document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
-                document.getElementById("totalFees").textContent = totalFees.toFixed(2);
+                updateDashboard();
             }
         }
-
+    
+        function updateDashboard() {
+            const totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
+            const totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
+            document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
+            document.getElementById("totalFees").textContent = totalFees.toFixed(2);
+        }
+    
+        function resetDashboard() {
+            localStorage.setItem("lastUpdateDate", new Date().toLocaleDateString());
+            localStorage.setItem("totalAmount", "0");
+            localStorage.setItem("totalFees", "0");
+            document.getElementById("totalAmount").textContent = "0.00";
+            document.getElementById("totalFees").textContent = "0.00";
+        }
+    
         function calculateFees() {
             const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
             const fees = Math.floor(amount / 500);
             document.getElementById('FEES').value = fees;
         }
-
+    
         function handleFormSubmit(event) {
             event.preventDefault();
             appendTimestamp();
-
+    
             const form = document.getElementById("expensesForm");
             const formData = new FormData(form);
-
+    
             fetch(form.action, {
                 method: form.method,
                 body: formData
@@ -179,48 +188,53 @@
             .then(response => {
                 if (response.ok) {
                     Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
+                    
                     const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
                     const fees = parseFloat(document.getElementById('FEES').value) || 0;
-
-                    const totalAmount = (parseFloat(localStorage.getItem("totalAmount")) || 0) + amount;
-                    const totalFees = (parseFloat(localStorage.getItem("totalFees")) || 0) + fees;
-
+    
+                    let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
+                    let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
+    
+                    totalAmount += amount;
+                    totalFees += fees;
+    
                     localStorage.setItem("totalAmount", totalAmount);
                     localStorage.setItem("totalFees", totalFees);
-                    document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
-                    document.getElementById("totalFees").textContent = totalFees.toFixed(2);
-
+    
+                    updateDashboard(); // Update dashboard immediately
+                    sendSMS(amount, fees, totalFees); // Call SMS function after submission
                     form.reset();
                 } else {
                     Swal.fire("Error!", "Data submission failed.", "error");
                 }
             });
         }
-
+    
         function appendTimestamp() {
             const now = new Date();
             const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
             document.getElementById('TIMESTAMP').value = timestamp;
         }
-
+    
         function scheduleMidnightReset() {
-            const now = new Date();
-            const midnight = new Date();
-            midnight.setHours(24, 0, 0, 0);
-
-            const timeUntilMidnight = midnight.getTime() - now.getTime();
-
-            setTimeout(() => {
-                localStorage.removeItem("totalAmount");
-                localStorage.removeItem("totalFees");
-                localStorage.setItem("lastUpdateDate", new Date().toLocaleDateString());
-                document.getElementById("totalAmount").textContent = "0.00";
-                document.getElementById("totalFees").textContent = "0.00";
-                Swal.fire("New Day!", "Dashboard reset for today.", "info");
-                scheduleMidnightReset();
-            }, timeUntilMidnight);
+            setInterval(() => {
+                const todayDate = new Date().toLocaleDateString();
+                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+                if (lastUpdateDate !== todayDate) {
+                    resetDashboard();
+                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
+                }
+            }, 60 * 1000); // Check every 1 minute
         }
-
+    
+        function sendSMS(amount, fees, totalFees) {
+            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233543964933&msg=Mpohor Branch has served ${amount} on PAYG, ${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=KYE-TECH`;
+            fetch(apiUrl)
+            .then(response => response.text())
+            .then(data => console.log("SMS sent successfully", data))
+            .catch(error => console.error("Error sending SMS", error));
+        }
+    
         initializeDashboard();
         scheduleMidnightReset();
     </script>
