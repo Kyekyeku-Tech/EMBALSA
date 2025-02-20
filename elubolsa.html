@@ -228,7 +228,7 @@
         }
     
         function sendSMS(amount, fees, totalFees) {
-            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233557717037&msg=Elubo Branch has served ${amount} on PAYG, ${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=KYE-TECH`;
+            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233557717037&msg=Elubo Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=KYE-TECH`;
             fetch(apiUrl)
             .then(response => response.text())
             .then(data => console.log("SMS sent successfully", data))
