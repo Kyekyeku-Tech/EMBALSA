@@ -121,7 +121,8 @@
             <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="AGONA">
 
             <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME"  placeholder="Enter Agent Name" required>
+            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" list="agentList" required>
+            <datalist id="agentList"></datalist>
 
 
             <label for="TYPE">TRANSACTION TYPE</label>
@@ -142,6 +143,104 @@
     </div>
 
     <script>
+         const agents = [
+"RICHARD NANA MENSAH", 
+"Esther Appoh",
+"Mickeyrine Ventures",
+"Helena Cudjoe", 
+"Robert Ben Gaisey",
+"Mose Mensah Aboagye",
+"Mose Akugre",
+"Beatrice kesson",
+"Bessman Ventures",
+"DK-Yirenkyi",
+"Infinity innovation",
+"Generosity Communication", 
+"Brace ventures ",
+"Honour The King",
+"Time Heals Chop bar Tarkwa", 
+"David Kwabena Kwofie Ent",
+"Sac 3 logistics", 
+"Nador Victor Ventures", 
+"LA PERIE GRAFFICS ENTERPRISE", 
+"Becky Ventures", 
+"Sheek Ventures", 
+"Master mind Ventures", 
+"Rahtifa Enterprise", 
+"Gate Capital Plus 2", 
+"Alex D pendable",
+"Kafupo Enterprise",
+"Godlife Adjei Solomon enterprise", 
+"Judycem Enterprise Agona Nkwanta", 
+"Ronaldo Ent",
+"E-BONITO ENT", 
+"Senior Joseph Business Center", 
+"Nana KWAW Enterprise", 
+"God is Able Ventures", 
+"Agyenim Boateng Ent",
+"Shall Gold Ventures",
+"God is Good", 
+"MM Seventy Three  Western WR REG",
+"Showers If Grace Enterprise", 
+"Gloria Ventures",
+"Pat Richy Ventures", 
+"The Most High", 
+"Kob Gyasi",
+"Ahmed Yankey Enterprise", 
+"Bullet Zone Business zlink",
+"GADDE YOU THINK ENTERPRISE",
+"Ellebright ventures",
+"ICELLHUB ENTERPRISE",
+"Archer  Paul Kesse",
+"Lynn's ventures",
+"FRABERNICK VENTURES", 
+"Dominic Adolwini Atibila",
+"Ali Shaibu 92 Ventures",
+"Allah Is The Greatest",
+"DORBUDU VENTURES",
+"GIDEONLIT VENTURES",
+"FOSA 98",
+"Nyame Ahomobro", 
+"MM 77 WESTERN REGION", 
+"Arngeof Ventures", 
+"Don Ziggy Ent",
+"Don Ziggy Ent",
+"Nicholas Acheampong Enterprise", 
+"Gideon Kofi Prah",
+"Emma Greate",
+"Richard Okyere nyarkoh", 
+"Capitano ventures",
+"Leticia Sowudu",
+"Ellebright ventures1", 
+"Ambient Electricals",
+"Kingshoot2 ventures",
+"ERIFRACE",
+"TETMARG HONESTLY ENTERPRISE", 
+"Obed Quaicoe",
+"Miqasant star ventures",
+"Linda Leonie Abakro",
+"Lee- Eagle Enterprise one",
+"Priscilla Ama Kwofie",
+"Veronica Prah"
+];
+
+const agentInput = document.getElementById("AgentName");
+const dataList = document.getElementById("agentList");
+
+agentInput.addEventListener("input", function () {
+    const inputValue = this.value.toLowerCase();
+    dataList.innerHTML = ""; // Clear previous options
+
+    if (inputValue.length >= 2) {
+        const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+
+        matches.forEach(match => {
+            const option = document.createElement("option");
+            option.value = match;
+            dataList.appendChild(option);
+        });
+    }
+});
       
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();
