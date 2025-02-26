@@ -105,6 +105,36 @@
                 transform: translateY(0);
             }
         }
+        .dropdown {
+    position: absolute;
+    width: 100%;
+    max-width: 420px; /* Match input field width */
+    background: white;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(2, 6, 253, 0.993);
+    display: none;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.dropdown div {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f00707;
+}
+
+.dropdown div:last-child {
+    border-bottom: none;
+}
+
+.dropdown div:hover {
+    background: #2600ff;
+    color: white;
+}
+
     </style>
 </head>
 <body>
@@ -121,8 +151,8 @@
             <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="HEAD OFFICE">
 
             <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" list="agentList" required>
-            <datalist id="agentList"></datalist>
+            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" required>
+            <div id="agentDropdown" class="dropdown"></div>
 
             <label for="TYPE">TRANSACTION TYPE</label>
             <select id="TYPE" name="TYPE" required>
@@ -148,21 +178,45 @@
 ];
 
 const agentInput = document.getElementById("AgentName");
-const dataList = document.getElementById("agentList");
+const dropdown = document.getElementById("agentDropdown");
 
 agentInput.addEventListener("input", function () {
     const inputValue = this.value.toLowerCase();
-    dataList.innerHTML = ""; // Clear previous options
+    dropdown.innerHTML = ""; // Clear old suggestions
+    dropdown.style.display = "none"; // Hide initially
 
     if (inputValue.length >= 2) {
         const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
 
-        matches.forEach(match => {
-            const option = document.createElement("option");
-            option.value = match;
-            dataList.appendChild(option);
-        });
+        if (matches.length > 0) {
+            dropdown.style.display = "block"; // Show dropdown
+
+            matches.forEach(match => {
+                const option = document.createElement("div");
+                option.textContent = match;
+                option.addEventListener("click", function () {
+                    agentInput.value = match; // Auto-fill input
+                    dropdown.style.display = "none"; // Hide dropdown
+                });
+                dropdown.appendChild(option);
+            });
+        }
     }
+});
+
+// Hide dropdown when clicking outside
+document.addEventListener("click", function (e) {
+    if (!agentInput.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+// Position dropdown below input
+agentInput.addEventListener("focus", function () {
+    const rect = agentInput.getBoundingClientRect();
+    dropdown.style.top = rect.bottom + "px";
+    dropdown.style.left = rect.left + "px";
+    dropdown.style.width = rect.width + "px";
 });
       
         function initializeDashboard() {
