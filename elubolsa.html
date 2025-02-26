@@ -121,13 +121,14 @@
             <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="ELUBO">
 
             <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME"  placeholder="Enter Agent Name" required>
-
+            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" list="agentList" required>
+            <datalist id="agentList"></datalist>
 
             <label for="TYPE">TRANSACTION TYPE</label>
             <select id="TYPE" name="TYPE" required>
                 <option value="E-CASH">E-CASH</option>
                 <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+                <option value="Others">Others</option>
             </select>
 
             <label for="AMOUNT">AMOUNT</label>
@@ -141,7 +142,34 @@
     </div>
 
     <script>
-      
+         const agents = [
+"Gabiko Ventures",
+"Pris Ab Ventures",
+"Be-Gentle Enterprise",
+"Queenzy Enterprise",
+"Dzefe Sam Enterprise",
+"M-Silas Ventures",
+"Dans Laundry and dry cleaning Ventures",
+"Rappart Connerx Enterprise" 
+];
+
+const agentInput = document.getElementById("AgentName");
+const dataList = document.getElementById("agentList");
+
+agentInput.addEventListener("input", function () {
+    const inputValue = this.value.toLowerCase();
+    dataList.innerHTML = ""; // Clear previous options
+
+    if (inputValue.length >= 2) {
+        const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+
+        matches.forEach(match => {
+            const option = document.createElement("option");
+            option.value = match;
+            dataList.appendChild(option);
+        });
+    }
+});
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();
             const lastUpdateDate = localStorage.getItem("lastUpdateDate");

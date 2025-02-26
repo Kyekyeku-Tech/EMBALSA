@@ -121,7 +121,8 @@
             <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="ANAJI-K">
 
             <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME"  placeholder="Enter Agent Name" required>
+            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" list="agentList" required>
+            <datalist id="agentList"></datalist>
 
             <label for="TYPE">TRANSACTION TYPE</label>
             <select id="TYPE" name="TYPE" required>
@@ -141,6 +142,52 @@
     </div>
 
     <script>
+         const agents = [
+"Dadzie dadzie Ent", 
+"David ainoo ST Padua Ventures",
+"DANWIN VENTURES",
+"Victory Enterprise", 
+"Elizabeth Ansah",
+"Blessing Evelyn kinnah",
+"Deborah Addae Debbyliz Ventures",
+"Patrick  kizito botsio",
+"Joshua Anaman 90",
+"ELSOM VENTURES",
+"Powerful  saviour-Patrick kizito botsio",
+"ST Padua Ventures-David Ainoo", 
+"DEBORAH ADDAE",
+"Joshua Anaman  Enterprise",
+"Charles Yankey  cy Telnecom", 
+"Allawakubur Ventures- Hawa",
+"MAX POLY PRODUCTS", 
+"Godfred Fuachie SRC Ventures", 
+"Pepassin Enterprise - Millicent", 
+"Fatimah logo AL Wakerley F .J Enterprise", 
+"VIda Amoah Zeetonia Ventures", 
+"Isaac Born to win", 
+"JustBee Ventures - Gifty Baffoe", 
+"Ebenezer Ackon Ent-Isaac opoku", 
+"Zinabu Halidu-Paul is able",
+"RHODA MENSAH-Rhodwusu"
+];
+
+const agentInput = document.getElementById("AgentName");
+const dataList = document.getElementById("agentList");
+
+agentInput.addEventListener("input", function () {
+    const inputValue = this.value.toLowerCase();
+    dataList.innerHTML = ""; // Clear previous options
+
+    if (inputValue.length >= 2) {
+        const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+
+        matches.forEach(match => {
+            const option = document.createElement("option");
+            option.value = match;
+            dataList.appendChild(option);
+        });
+    }
+});
       
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();

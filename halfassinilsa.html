@@ -120,12 +120,14 @@
             <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="HALF ASSINI">
 
             <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" required>
+            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" list="agentList" required>
+            <datalist id="agentList"></datalist>
 
             <label for="TYPE">TRANSACTION TYPE</label>
             <select id="TYPE" name="TYPE" required>
                 <option value="E-CASH">E-CASH</option>
                 <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+                <option value="Others">Others</option>
             </select>
 
             <label for="AMOUNT">AMOUNT</label>
@@ -139,6 +141,42 @@
     </div>
 
     <script>
+         const agents = [
+"Graphy Enterprise",
+"Good seed of Djabah",
+"Richard Appiah Asiedu",
+"Nkwasuo Miniral Water",
+"LoveJenney Ventures-Evans",
+"Mr shop Ghana limited", 
+"Just Blow business enterprise", 
+"Ebenezer Annor",
+"Senix Enterprise",
+"Nana Benya Ventures",
+"Ishmael Tawiah",
+"JERRYPASS ENTERPRISE",
+"Blissful Venture",
+"ROCK OF AGES VENTURES",
+"Coaches Ventures Adam karim",
+"Mary Magdaline Dadzi", 
+];
+
+const agentInput = document.getElementById("AgentName");
+const dataList = document.getElementById("agentList");
+
+agentInput.addEventListener("input", function () {
+    const inputValue = this.value.toLowerCase();
+    dataList.innerHTML = ""; // Clear previous options
+
+    if (inputValue.length >= 2) {
+        const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+
+        matches.forEach(match => {
+            const option = document.createElement("option");
+            option.value = match;
+            dataList.appendChild(option);
+        });
+    }
+});
       
     function initializeDashboard() {
         const todayDate = new Date().toLocaleDateString();

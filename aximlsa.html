@@ -121,12 +121,14 @@
             <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="AXIM">
 
             <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME"  placeholder="Enter Agent Name" required>
+            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" list="agentList" required>
+            <datalist id="agentList"></datalist>
 
             <label for="TYPE">TRANSACTION TYPE</label>
             <select id="TYPE" name="TYPE" required>
                 <option value="E-CASH">E-CASH</option>
                 <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+                <option value="Others">Others</option>
             </select>
 
             <label for="AMOUNT">AMOUNT</label>
@@ -140,7 +142,68 @@
     </div>
 
     <script>
-      
+         const agents = [
+"R.C ELECTRICALS",
+"Born Rich Ent",
+"Bilal phones and Accessories", 
+"Ohemaa Mercy Ventures", 
+"LIFE IS WAR ENTERPRISE",
+"New day, new life enterprise", 
+"22kobby brains", 
+"Kwame Fosu enterprises", 
+"New ventures", 
+"One man no chop",
+"One man no chop",
+"Awake diamond ventures", 
+"K- Konsult",
+"Justice Arthur", 
+"Isaac Andoh Ventures", 
+"Success is on door Enterprise", 
+"Mohammed Ayuba Enterprise", 
+"By the grace of Allah", 
+"Randsbecca enterprise", 
+"Philomena awortwe", 
+"SERIOUS PEOPLE ENTERPRISE", 
+"WHO KNOWS TOMORROW",
+"OBED NYAMEYIE ENTERPRISE", 
+"B- Frank Electricals", 
+"ESTHER QUANSON",
+"Sam Passion Ventures", 
+"GEAWORNU MIRCOFINANCE SERVICE",
+"Richmen enterprise", 
+"Big Dan Ventures", 
+"JUSTINA'S BUSINESS LINKS",
+"Enock Ngedah",
+"Katuso ediko ventures", 
+"Ennin ventures",
+"Experience is the best Bernard ventures",
+"CATHERINE QUASIGAH",
+"God Empire Enterprise", 
+"New day , new life Enterprise",
+"Star Alluminum Service", 
+"U-link ventures",
+"NICOLAS NICOLAS",
+"EMMANUEL FOSU",
+"COMFORT MENSAH"
+];
+
+const agentInput = document.getElementById("AgentName");
+const dataList = document.getElementById("agentList");
+
+agentInput.addEventListener("input", function () {
+    const inputValue = this.value.toLowerCase();
+    dataList.innerHTML = ""; // Clear previous options
+
+    if (inputValue.length >= 2) {
+        const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+
+        matches.forEach(match => {
+            const option = document.createElement("option");
+            option.value = match;
+            dataList.appendChild(option);
+        });
+    }
+});
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();
             const lastUpdateDate = localStorage.getItem("lastUpdateDate");
