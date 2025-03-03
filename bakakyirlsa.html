@@ -143,6 +143,7 @@
             <h4>Daily Submission Dashboard</h4>
             <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
             <p class="totals">Total Fees: GHC <span id="totalFees">0</span></p>
+            <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
         </div>
         <img src="emba.jpg" alt="Emba Logo" class="logo">
         <form id="expensesForm" action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post" onsubmit="return handleFormSubmit(event)">
@@ -237,90 +238,105 @@ agentInput.addEventListener("focus", function () {
     dropdown.style.width = rect.width + "px";
 });
       
-        function initializeDashboard() {
-            const todayDate = new Date().toLocaleDateString();
-            const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-    
-            if (lastUpdateDate !== todayDate) {
-                resetDashboard();
-            } else {
-                updateDashboard();
-            }
+function initializeDashboard() {
+        const todayDate = new Date().toLocaleDateString();
+        const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+
+        if (lastUpdateDate !== todayDate) {
+            resetDashboard();
+        } else {
+            updateDashboard();
         }
-    
-        function updateDashboard() {
-            const totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
-            const totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
-            document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
-            document.getElementById("totalFees").textContent = totalFees.toFixed(2);
+    }
+
+    function updateDashboard() {
+            document.getElementById("totalAmount").textContent = parseFloat(localStorage.getItem("totalAmount") || 0).toFixed(2);
+            document.getElementById("totalFees").textContent = parseFloat(localStorage.getItem("totalFees") || 0).toFixed(2);
+            document.getElementById("totalUnique").textContent = JSON.parse(localStorage.getItem("uniqueAgents") || "[]").length;
         }
-    
+
         function resetDashboard() {
             localStorage.setItem("lastUpdateDate", new Date().toLocaleDateString());
             localStorage.setItem("totalAmount", "0");
             localStorage.setItem("totalFees", "0");
-            document.getElementById("totalAmount").textContent = "0.00";
-            document.getElementById("totalFees").textContent = "0.00";
+            localStorage.setItem("uniqueAgents", JSON.stringify([]));
+            updateDashboard();
         }
-    
-        function calculateFees() {
-            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-            const fees = Math.floor(amount / 500);
-            document.getElementById('FEES').value = fees;
-        }
-    
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            appendTimestamp();
-    
-            const form = document.getElementById("expensesForm");
-            const formData = new FormData(form);
-    
-            fetch(form.action, {
-                method: form.method,
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
-                    
-                    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-                    const fees = parseFloat(document.getElementById('FEES').value) || 0;
-    
-                    let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
-                    let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
-    
-                    totalAmount += amount;
-                    totalFees += fees;
-    
-                    localStorage.setItem("totalAmount", totalAmount);
-                    localStorage.setItem("totalFees", totalFees);
-    
-                    updateDashboard(); // Update dashboard immediately
-                    sendSMS(amount, fees, totalFees); // Call SMS function after submission
-                    form.reset();
-                } else {
-                    Swal.fire("Error!", "Data submission failed.", "error");
-                }
-            });
-        }
-    
-        function appendTimestamp() {
-            const now = new Date();
-            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-            document.getElementById('TIMESTAMP').value = timestamp;
-        }
-    
-        function scheduleMidnightReset() {
-            setInterval(() => {
-                const todayDate = new Date().toLocaleDateString();
-                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-                if (lastUpdateDate !== todayDate) {
-                    resetDashboard();
-                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
-                }
-            }, 60 * 1000); // Check every 1 minute
-        }
+
+
+    function calculateFees() {
+        const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+        const fees = Math.floor(amount / 500);
+        document.getElementById('FEES').value = fees;
+    }
+
+    function handleFormSubmit(event) {
+    event.preventDefault();
+    appendTimestamp();
+
+    const form = document.getElementById("expensesForm");
+    const formData = new FormData(form);
+    const agentName = document.getElementById("AgentName").value;
+    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+    const fees = parseFloat(document.getElementById('FEES').value) || 0;
+
+    let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
+    let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
+    let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
+
+    if (!uniqueAgents.includes(agentName)) {
+        uniqueAgents.push(agentName);
+        localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
+    }
+
+    totalAmount += amount;
+    totalFees += fees;
+    localStorage.setItem("totalAmount", totalAmount);
+    localStorage.setItem("totalFees", totalFees);
+    updateDashboard();
+
+    // Call SMS function BEFORE submission to reduce delay
+    const smsPromise = sendSMS(amount, fees, totalFees);
+
+    // Submit form data simultaneously with SMS
+    const formPromise = fetch(form.action, {
+        method: form.method,
+        body: formData
+    });
+
+    Promise.all([smsPromise, formPromise])
+        .then(([smsResponse, formResponse]) => {
+            if (formResponse.ok) {
+                Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
+                form.reset();
+            } else {
+                Swal.fire("Error!", "Data submission failed.", "error");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            Swal.fire("Error!", "Something went wrong.", "error");
+        });
+}
+
+
+
+    function appendTimestamp() {
+        const now = new Date();
+        const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        document.getElementById('TIMESTAMP').value = timestamp;
+    }
+
+    function scheduleMidnightReset() {
+        setInterval(() => {
+            const todayDate = new Date().toLocaleDateString();
+            const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+            if (lastUpdateDate !== todayDate) {
+                resetDashboard();
+                Swal.fire("New Day!", "Dashboard reset for today.", "info");
+            }
+        }, 60 * 1000); // Check every 1 minute
+    }
     
         function sendSMS(amount, fees, totalFees) {
             const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233240256058&msg=Bakakyir Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
