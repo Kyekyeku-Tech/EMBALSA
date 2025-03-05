@@ -70,6 +70,7 @@
             transform: translateY(2px);
             box-shadow: 0 4px 15px rgba(255, 111, 97, 0.4);
         }
+        
         .logo {
             position: absolute;
             top: 15px;
@@ -77,16 +78,143 @@
             width: 80px;
             height: auto;
         }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease-in-out;
+        }
+
+        .modal-content {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.5);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #f80303;
+        }
+
+        .modal p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .modal a {
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .modal a:hover {
+            text-decoration: underline;
+        }
+
+        .modal .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .modal .checkbox-container input {
+            margin-right: 10px;
+        }
+
+        .modal button {
+            padding: 10px 20px;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .modal button:hover {
+            background: rgb(8, 8, 8);
+        }
     </style>
 </head>
 <body>
-    <img src="emba.jpg" alt="Emba Logo" class="logo">
+
+    <a href="mailto:info@kyekyeku.tech">
+        <img src="emba.jpg" alt="Emba Logo" class="logo">
+    </a>
+
     <div class="container">
         <h1>Welcome to HEAD OFFICE</h1>
         <div class="buttons">
-            <a href="headofficelink.html" class="button">NEW AGENT LINK</a>
-            <a href="headofficelsa.html" class="button">LSA SUPPORT</a>
+            <a href="headofficelink.html" class="button">NEW REGISTRATION</a>
+            <a href="headofficelsa.html" class="button">PAYG SUPPORT</a>
         </div>
     </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <h2>Terms & Conditions</h2>
+            <p>Please read and agree to our Terms & Conditions before using this app.</p>
+            <p>If you do not agree, kindly do not use this app.</p>
+            <p>Visit: <a href="https://www.e-droid.net/privacy.php?ida=3410650&idl=en" target="_blank">Privacy Policy</a></p>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="dontShowAgain">
+                <label for="dontShowAgain">Don't show this again</label>
+            </div>
+            
+            <button id="agreeBtn">I Agree</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("termsModal");
+            const agreeBtn = document.getElementById("agreeBtn");
+            const dontShowAgain = document.getElementById("dontShowAgain");
+
+            // Check if user already agreed
+            if (!localStorage.getItem("termsAccepted")) {
+                modal.classList.add("show");
+            }
+
+            agreeBtn.addEventListener("click", function () {
+                if (dontShowAgain.checked) {
+                    localStorage.setItem("termsAccepted", "true");
+                }
+                modal.classList.remove("show");
+            });
+        });
+    </script>
+
 </body>
 </html>
+

@@ -5,166 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download App | EMBA NEW LSA</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(120deg, #f4f4f9, #e3e8ff);
-            color: #333;
-            line-height: 1.6;
-            overflow-x: hidden;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
-        header {
-            background: #0328f8;
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f5dd05, #1b02f5, #2c5364);
             color: #fff;
-            padding: 20px 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        header img {
-            position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            height: 50px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        header:hover h1 {
-            transform: scale(1.1);
+            overflow: hidden;
         }
 
         .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(5, 5, 5, 0.726);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(243, 243, 247, 0.911);
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            transition: transform 0.3s ease-in-out;
         }
 
         .container:hover {
             transform: translateY(-5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .app-details {
+        .logo {
+            width: 80px;
             margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
 
         .app-details table {
             width: 100%;
-            border-collapse: collapse;
-            animation: fadeIn 0.8s ease-in-out;
+            margin: 20px 0;
+            border-spacing: 10px;
         }
 
         .app-details td {
             padding: 10px;
-            border: 1px solid #ddd;
+            font-size: 1rem;
+            border-bottom: 1px solid rgba(245, 1, 1, 0.733);
         }
 
         .download-btn {
             display: inline-block;
-            margin: 20px 0;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            color: #fff;
-            background: #3f51b5;
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #0e0101;
+            background: linear-gradient(45deg, #f8e802, #035bff5d);
             border: none;
-            border-radius: 5px;
-            text-align: center;
+            border-radius: 50px;
             text-decoration: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 3px 3px rgba(248, 32, 3, 0.993);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .download-btn:hover {
-            background: #01030f;
-            transform: translateY(-3px);
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(12, 12, 12, 0.966);
         }
 
         footer {
-            text-align: center;
-            padding: 20px;
-            background: #3f51b5;
-            color: #fff;
             margin-top: 20px;
-            position: relative;
-        }
-
-        footer p {
-            margin: 0;
-            animation: fadeInUp 1s ease-in-out;
-        }
-
-        footer a {
-            color: #ffc107;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        footer a:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
 
         @media (max-width: 600px) {
             .container {
-                width: 90%;
-                padding: 15px;
+                padding: 20px;
             }
-
-            header img {
-                height: 40px;
-            }
-
-            header h1 {
+            h1 {
                 font-size: 1.5rem;
             }
-
             .download-btn {
-                font-size: 1rem;
-                padding: 10px 20px;
+                font-size: 0.9rem;
+                padding: 12px 30px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <img src="emba.jpg" alt="EMBA Logo">
-        <h1>EMBA NEW LSA App</h1>
-    </header>
-
     <div class="container">
+        <img src="emba.jpg" alt="EMBA Logo" class="logo">
+        <h1>EMBA PAYG App</h1>
         <div class="app-details">
             <table>
                 <tr>
@@ -173,12 +113,12 @@
                 </tr>
                 <tr>
                     <td><strong>Description:</strong></td>
-                    <td>For Daily LSA scheme report</td>
+                    <td>Registration of New Agent to PayG platform, submitting of Daily Report on PayG. </td>
                 </tr>
             </table>
         </div>
-
         <a href="https://apk.e-droid.net/apk/app3410650-b1wdix.apk?v=1" class="download-btn">Download App</a>
     </div>
+    <footer>Powered by Kyekyeku Tech</footer>
 </body>
 </html>
