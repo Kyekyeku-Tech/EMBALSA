@@ -136,6 +136,7 @@
 }
 
     </style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
@@ -147,7 +148,6 @@
         </div>
         <img src="emba.jpg" alt="Emba Logo" class="logo">
         <form id="expensesForm" action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post" onsubmit="return handleFormSubmit(event)">
-
             <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
             <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="VM">
 
@@ -173,8 +173,8 @@
     </div>
 
     <script>
-         const agents = [
-"Totleman ventures-Margaret",
+        const agents = [
+        "Totleman ventures-Margaret",
 "Arde Enterprise -Florence",
 "Sam Duah VENTURES -", 
 "JEHOVAH PROMISE- Joseph", 
@@ -189,63 +189,55 @@
 "Sabina Esi Cobbina	-Sabina Esi Cobbina Enterprise", 
 "Gabriel  Mensah -Gabriel Mensah G and G7",
 "Innocent Gakuo	Innocent Jewellery",
-	
-];
+        ];
+        const agentInput = document.getElementById("AgentName");
+        const dropdown = document.getElementById("agentDropdown");
 
-const agentInput = document.getElementById("AgentName");
-const dropdown = document.getElementById("agentDropdown");
+        agentInput.addEventListener("input", function () {
+            const inputValue = this.value.toLowerCase();
+            dropdown.innerHTML = "";
+            dropdown.style.display = "none";
+            if (inputValue.length >= 2) {
+                const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+                if (matches.length > 0) {
+                    dropdown.style.display = "block";
+                    matches.forEach(match => {
+                        const option = document.createElement("div");
+                        option.textContent = match;
+                        option.addEventListener("click", function () {
+                            agentInput.value = match;
+                            dropdown.style.display = "none";
+                        });
+                        dropdown.appendChild(option);
+                    });
+                }
+            }
+        });
 
-agentInput.addEventListener("input", function () {
-    const inputValue = this.value.toLowerCase();
-    dropdown.innerHTML = ""; // Clear old suggestions
-    dropdown.style.display = "none"; // Hide initially
+        document.addEventListener("click", function (e) {
+            if (!agentInput.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = "none";
+            }
+        });
 
-    if (inputValue.length >= 2) {
-        const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+        agentInput.addEventListener("focus", function () {
+            const rect = agentInput.getBoundingClientRect();
+            dropdown.style.top = rect.bottom + "px";
+            dropdown.style.left = rect.left + "px";
+            dropdown.style.width = rect.width + "px";
+        });
 
-        if (matches.length > 0) {
-            dropdown.style.display = "block"; // Show dropdown
-
-            matches.forEach(match => {
-                const option = document.createElement("div");
-                option.textContent = match;
-                option.addEventListener("click", function () {
-                    agentInput.value = match; // Auto-fill input
-                    dropdown.style.display = "none"; // Hide dropdown
-                });
-                dropdown.appendChild(option);
-            });
+        function initializeDashboard() {
+            const todayDate = new Date().toLocaleDateString();
+            const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+            if (lastUpdateDate !== todayDate) {
+                resetDashboard();
+            } else {
+                updateDashboard();
+            }
         }
-    }
-});
 
-// Hide dropdown when clicking outside
-document.addEventListener("click", function (e) {
-    if (!agentInput.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.style.display = "none";
-    }
-});
-
-// Position dropdown below input
-agentInput.addEventListener("focus", function () {
-    const rect = agentInput.getBoundingClientRect();
-    dropdown.style.top = rect.bottom + "px";
-    dropdown.style.left = rect.left + "px";
-    dropdown.style.width = rect.width + "px";
-});
-      
-function initializeDashboard() {
-        const todayDate = new Date().toLocaleDateString();
-        const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-
-        if (lastUpdateDate !== todayDate) {
-            resetDashboard();
-        } else {
-            updateDashboard();
-        }
-    }
-
-    function updateDashboard() {
+        function updateDashboard() {
             document.getElementById("totalAmount").textContent = parseFloat(localStorage.getItem("totalAmount") || 0).toFixed(2);
             document.getElementById("totalFees").textContent = parseFloat(localStorage.getItem("totalFees") || 0).toFixed(2);
             document.getElementById("totalUnique").textContent = JSON.parse(localStorage.getItem("uniqueAgents") || "[]").length;
@@ -259,89 +251,98 @@ function initializeDashboard() {
             updateDashboard();
         }
 
+        function calculateFees() {
+            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+            const fees = Math.floor(amount / 500);
+            document.getElementById('FEES').value = fees;
+        }
 
-    function calculateFees() {
-        const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-        const fees = Math.floor(amount / 500);
-        document.getElementById('FEES').value = fees;
-    }
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            appendTimestamp();
 
-    function handleFormSubmit(event) {
-    event.preventDefault();
-    appendTimestamp();
+            const form = document.getElementById("expensesForm");
+            const formData = new FormData(form);
+            const agentName = document.getElementById("AgentName").value;
+            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+            const fees = parseFloat(document.getElementById('FEES').value) || 0;
 
-    const form = document.getElementById("expensesForm");
-    const formData = new FormData(form);
-    const agentName = document.getElementById("AgentName").value;
-    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-    const fees = parseFloat(document.getElementById('FEES').value) || 0;
+            const submitButton = form.querySelector("button[type='submit']");
+            submitButton.disabled = true;
 
-    let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
-    let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
-    let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
+            Swal.fire({
+                title: 'Submitting...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
 
-    if (!uniqueAgents.includes(agentName)) {
-        uniqueAgents.push(agentName);
-        localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
-    }
+            const smsPromise = sendSMS(amount, fees, (parseFloat(localStorage.getItem("totalFees")) || 0) + fees);
 
-    totalAmount += amount;
-    totalFees += fees;
-    localStorage.setItem("totalAmount", totalAmount);
-    localStorage.setItem("totalFees", totalFees);
-    updateDashboard();
+            const formPromise = fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
 
-    // Call SMS function BEFORE submission to reduce delay
-    const smsPromise = sendSMS(amount, fees, totalFees);
+            Promise.all([smsPromise, formPromise])
+                .then(([smsResponse, formResponse]) => {
+                    if (formResponse.ok) {
+                        let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
+                        let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
+                        let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
 
-    // Submit form data simultaneously with SMS
-    const formPromise = fetch(form.action, {
-        method: form.method,
-        body: formData
-    });
+                        if (!uniqueAgents.includes(agentName)) {
+                            uniqueAgents.push(agentName);
+                            localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
+                        }
 
-    Promise.all([smsPromise, formPromise])
-        .then(([smsResponse, formResponse]) => {
-            if (formResponse.ok) {
-                Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
-                form.reset();
-            } else {
-                Swal.fire("Error!", "Data submission failed.", "error");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            Swal.fire("Error!", "Something went wrong.", "error");
-        });
-}
+                        totalAmount += amount;
+                        totalFees += fees;
 
+                        localStorage.setItem("totalAmount", totalAmount);
+                        localStorage.setItem("totalFees", totalFees);
 
+                        updateDashboard();
 
-    function appendTimestamp() {
-        const now = new Date();
-        const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-        document.getElementById('TIMESTAMP').value = timestamp;
-    }
+                        Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
+                        form.reset();
+                    } else {
+                        Swal.fire("Error!", "Data submission failed.", "error");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    Swal.fire("Error!", "Something went wrong.", "error");
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                });
+        }
 
-    function scheduleMidnightReset() {
-        setInterval(() => {
-            const todayDate = new Date().toLocaleDateString();
-            const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-            if (lastUpdateDate !== todayDate) {
-                resetDashboard();
-                Swal.fire("New Day!", "Dashboard reset for today.", "info");
-            }
-        }, 60 * 1000); // Check every 1 minute
-    }
-    
+        function appendTimestamp() {
+            const now = new Date();
+            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+            document.getElementById('TIMESTAMP').value = timestamp;
+        }
+
+        function scheduleMidnightReset() {
+            setInterval(() => {
+                const todayDate = new Date().toLocaleDateString();
+                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+                if (lastUpdateDate !== todayDate) {
+                    resetDashboard();
+                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
+                }
+            }, 60 * 1000);
+        }
+
         function sendSMS(amount, fees, totalFees) {
             const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233242108070&msg=VM Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
-            fetch(apiUrl)
-            .then(response => response.text())
-            .then(data => console.log("SMS sent successfully", data))
-            .catch(error => console.error("Error sending SMS", error));
+            return fetch(apiUrl)
+                .then(response => response.text())
+                .then(data => console.log("SMS sent successfully", data))
+                .catch(error => console.error("Error sending SMS", error));
         }
-    
+
         initializeDashboard();
         scheduleMidnightReset();
     </script>
