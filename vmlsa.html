@@ -259,59 +259,65 @@ const dropdown = document.getElementById("agentDropdown");
         }
 
         function handleFormSubmit(event) {
-    event.preventDefault();
-    appendTimestamp();
+            event.preventDefault();
+            appendTimestamp();
 
-    const form = document.getElementById("expensesForm");
-    const formData = new FormData(form);
-    const agentName = document.getElementById("AgentName").value;
-    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-    const fees = parseFloat(document.getElementById('FEES').value) || 0;
-    const submitBtn = form.querySelector('button[type="submit"]');
+            const form = document.getElementById("expensesForm");
+            const formData = new FormData(form);
+            const agentName = document.getElementById("AgentName").value;
+            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+            const fees = parseFloat(document.getElementById('FEES').value) || 0;
 
-    // Hide the submit button during processing
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Submitting...";
+            const submitButton = form.querySelector("button[type='submit']");
+            submitButton.disabled = true;
 
-    // Update localStorage
-    let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
-    let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
-    let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
+            Swal.fire({
+                title: 'Submitting...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
 
-    if (!uniqueAgents.includes(agentName)) {
-        uniqueAgents.push(agentName);
-        localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
-    }
+            const smsPromise = sendSMS(amount, fees, (parseFloat(localStorage.getItem("totalFees")) || 0) + fees);
 
-    totalAmount += amount;
-    totalFees += fees;
-    localStorage.setItem("totalAmount", totalAmount);
-    localStorage.setItem("totalFees", totalFees);
-    updateDashboard();
+            const formPromise = fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
 
-    // Submit form first
-    fetch(form.action, {
-        method: form.method,
-        body: formData
-    }).then(response => {
-        if (response.ok) {
-            Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
-            form.reset();
+            Promise.all([smsPromise, formPromise])
+                .then(([smsResponse, formResponse]) => {
+                    if (formResponse.ok) {
+                        let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
+                        let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
+                        let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
 
-            // Send SMS after successful form submission
-            sendSMS(amount, fees, totalFees);
-        } else {
-            Swal.fire("Error!", "Data submission failed.", "error");
+                        if (!uniqueAgents.includes(agentName)) {
+                            uniqueAgents.push(agentName);
+                            localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
+                        }
+
+                        totalAmount += amount;
+                        totalFees += fees;
+
+                        localStorage.setItem("totalAmount", totalAmount);
+                        localStorage.setItem("totalFees", totalFees);
+
+                        updateDashboard();
+
+                        Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
+                        form.reset();
+                    } else {
+                        Swal.fire("Error!", "Data submission failed.", "error");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    Swal.fire("Error!", "Something went wrong.", "error");
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                });
         }
-    }).catch(error => {
-        console.error("Submission error:", error);
-        Swal.fire("Error!", "Something went wrong.", "error");
-    }).finally(() => {
-        // Re-enable the button
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit";
-    });
-}
 
 
         function appendTimestamp() {
