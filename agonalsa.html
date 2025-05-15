@@ -372,6 +372,40 @@
 "Ruth -RUTHMIC",
 "Salifu Musah -Salifu Musah",
 "Richard Nyarko -Richard Nyarko",
+"Wisdom -Eagle time ventures 1",
+"Fredrick -Fredo unique Business Centre",
+"Anthony K Eshun -Blessed Virgin Mary",
+"Priscilla Anlimah -Jeohard Ventures", 
+"Arthur Millcent -AM Enterprise",
+"Samuel Ansah -Ansah Paradise", 
+"Nevame Ent -Nevame Ent",
+"Sebuabey Godfred Eden -Sebdem Ventures", 
+"Pauline Aidoo 	Eagle Time Ent @ Anchiyie",
+"Augustina 	Augustina 1990 Ventures",
+"Prince Henry Essien Henry - Paa Ventures",
+"Rita -Papa Mo wo hon",
+"Priscilla -Joehard Ventures", 
+"Alma -Alma Ventures", 
+"Jechoriahs -Jechoriahs success ent",
+"Samuel Ansah -Ansah Paradise",
+"Leticia Kwofie -Favour From God Ventures", 
+"Prince Henry Essien -Henry-Paa Ventures",
+"Paulina Amissah -Polyamass Ventures", 
+"Fredrick Oheneba Quaisie -Fredo Unique Business Center",
+"Joshjenny ventures -joshjenny ventures", 
+"Benjamin Awni Anaba -Benjamin Awuni Anaba",
+"Papa Yamson -Paapa Yamson",
+ "Alley Ventures -Alley Ventures",
+"Henry-paa Ventures-Henry-paa",
+"Joshjenny ventures -Joshjenny", 
+"C6C VENTURES -C6C VENTURES",
+"Allah is the greatest -Allah is the greatest",
+"Benjamin Awuni Anaba -Benjamin Awuni Anaba",
+"Ritmens 555 enterprise -Rita Mensah",
+"Star Horse -Star Horse",
+"Janet  Abbey -Janet Abbey",
+"Papa ma ho Enterprise -Paa ma ho Enterprise",
+"Kate De Queen Ventures -Kate Ayertey"
  
 ];
         
@@ -523,7 +557,7 @@
         function sendSMS(amount, fees, totalFees) {
     const dsrName = document.getElementById("DSRName").value || "Unknown DSR";
     const message = `${dsrName} Agona Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}`;
-    const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+2335453569323&msg=${encodeURIComponent(message)}&sender_id=PAYG`;
+    const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233543569323&msg=${encodeURIComponent(message)}&sender_id=PAYG`;
     
     return fetch(apiUrl)
         .then(response => response.text())
