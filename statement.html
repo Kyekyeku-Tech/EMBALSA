@@ -1,11 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <style>
-        @keyframes moveBackground {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Statement</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .form-container h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      color: #111827;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #0758da;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid #010813;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    input[type="date"]:focus {
+      border-color: #6366f1;
+    }
+
+    
+    @keyframes moveBackground {
             0% { background-position: 0 0; }
             50% { background-position: 100% 100%; }
             100% { background-position: 0 0; }
@@ -40,14 +94,9 @@
             letter-spacing: 2px;
         }
 
-        .buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
+        
 
-        .button {
+        button {
             padding: 15px 30px;
             font-size: 1rem;
             font-weight: bold;
@@ -60,13 +109,13 @@
             box-shadow: 0 4px 15px rgba(255, 111, 97, 0.4);
         }
 
-        .button:hover {
+        button:hover {
             background-color: blue;
             transform: translateY(-5px);
             box-shadow: 0 8px 30px rgba(255, 111, 97, 0.6);
         }
 
-        .button:active {
+        button:active {
             transform: translateY(2px);
             box-shadow: 0 4px 15px rgba(255, 111, 97, 0.4);
         }
@@ -170,52 +219,45 @@
         <img src="emba.jpg" alt="Emba Logo" class="logo">
     </a>
 
-    <div class="container">
-        <h1>Welcome to HEAD OFFICE</h1>
-        <div class="buttons">
-            <a href="headofficelink.html" class="button">NEW REGISTRATION</a>
-            <a href="headofficelsa.html" class="button">PAYG SUPPORT</a>
-            <a href="statement.html" class="button">PAYG STATEMENT</a>
-        </div>
-    </div>
+  <div class="form-container">
+    <h2>Request PAYG Statement</h2>
+    <input type="text" id="startDate" placeholder="Start Date" />
+<input type="text" id="endDate" placeholder="End Date" />
 
-    <!-- Terms & Conditions Modal -->
-    <div id="termsModal" class="modal">
-        <div class="modal-content">
-            <h2>Terms & Conditions</h2>
-            <p>Please read and agree to our Terms & Conditions before using this app.</p>
-            <p>If you do not agree, kindly do not use this app.</p>
-            <p>Visit: <a href="https://www.e-droid.net/privacy.php?ida=3410650&idl=en" target="_blank">Privacy Policy</a></p>
-            
-            <div class="checkbox-container">
-                <input type="checkbox" id="dontShowAgain">
-                <label for="dontShowAgain">Don't show this again</label>
-            </div>
-            
-            <button id="agreeBtn">I Agree</button>
-        </div>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const modal = document.getElementById("termsModal");
-            const agreeBtn = document.getElementById("agreeBtn");
-            const dontShowAgain = document.getElementById("dontShowAgain");
+    <button onclick="sendWhatsAppMessage()">Request via WhatsApp</button>
+  </div>
 
-            // Check if user already agreed
-            if (!localStorage.getItem("termsAccepted")) {
-                modal.classList.add("show");
-            }
+ <script>
+  flatpickr("#startDate", {
+    dateFormat: "d/m/Y",
+    minDate: "01-01-2025",
+    maxDate: "31-12-2025"
+  });
 
-            agreeBtn.addEventListener("click", function () {
-                if (dontShowAgain.checked) {
-                    localStorage.setItem("termsAccepted", "true");
-                }
-                modal.classList.remove("show");
-            });
-        });
-    </script>
+  flatpickr("#endDate", {
+    dateFormat: "d/m/Y",
+    minDate: "01-01-2025",
+    maxDate: "31-12-2025"
+  });
+
+  function sendWhatsAppMessage() {
+    const phoneNumber = "233545454000";
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    if (!startDate || !endDate) {
+      alert("Please select both start and end dates.");
+      return;
+    }
+
+    const message = `Hello Sarfo, I would like to request my Payg Commission statement from ${startDate} to ${endDate}`;
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+    window.open(url, '_blank');
+  }
+</script>
+
 
 </body>
 </html>
-
