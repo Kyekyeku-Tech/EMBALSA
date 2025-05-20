@@ -280,10 +280,11 @@
         }
 
         function calculateFees() {
-            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-            const fees = Math.floor(amount / 500);
-            document.getElementById('FEES').value = fees;
-        }
+    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+    const fees = amount * 0.002; // 0.2% of the amount
+    document.getElementById('FEES').value = fees.toFixed(2); // Round to 2 decimal places
+}
+
 
         function handleFormSubmit(event) {
             event.preventDefault();
