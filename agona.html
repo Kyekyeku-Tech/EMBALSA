@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Emba PayG</title>
     <style>
         @keyframes moveBackground {
             0% { background-position: 0 0; }
@@ -70,6 +70,17 @@
     transform: scale(0.98);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
+@media (max-width: 500px) {
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .button {
+        width: 100%;
+    }
+}
+
 
         
         .logo {
@@ -174,7 +185,7 @@
     <div class="container">
         <h1>Welcome to AGONA BRANCH</h1>
         <div class="buttons">
-            <a href="agonalink.html" class="button">NEW AGENT REG</a>
+            <a href="agonalink.html" class="button">NEW REGISTRATION</a>
             <a href="agonalsa.html" class="button">PAYG SUPPORT</a>
             <a href="statement.html" class="button">PAYG STATEMENT</a>
         </div>
@@ -186,7 +197,7 @@
             <h2>Terms & Conditions</h2>
             <p>Please read and agree to our Terms & Conditions before using this app.</p>
             <p>If you do not agree, kindly do not use this app.</p>
-            <p>Visit: <a href="https://www.e-droid.net/privacy.php?ida=3410650&idl=en" target="_blank">Privacy Policy</a></p>
+            <p>Visit: <a href="privacy.html" target="_blank">Privacy Policy</a></p>
             
             <div class="checkbox-container">
                 <input type="checkbox" id="dontShowAgain">
