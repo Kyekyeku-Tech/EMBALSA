@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Submission Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- jsPDF for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -140,6 +146,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="download-buttons">
+            <button onclick="downloadExcel()">Download Excel</button>
+
+        </div>
+        
         <div class="dashboard">
             <h4>Daily Submission Dashboard</h4>
             <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
@@ -174,13 +185,15 @@
 
     <script>
         const agents = ["New Agent"];
+        
         const agentInput = document.getElementById("AgentName");
         const dropdown = document.getElementById("agentDropdown");
-
+    
         agentInput.addEventListener("input", function () {
             const inputValue = this.value.toLowerCase();
             dropdown.innerHTML = "";
             dropdown.style.display = "none";
+    
             if (inputValue.length >= 2) {
                 const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
                 if (matches.length > 0) {
@@ -197,20 +210,20 @@
                 }
             }
         });
-
+    
         document.addEventListener("click", function (e) {
             if (!agentInput.contains(e.target) && !dropdown.contains(e.target)) {
                 dropdown.style.display = "none";
             }
         });
-
+    
         agentInput.addEventListener("focus", function () {
             const rect = agentInput.getBoundingClientRect();
             dropdown.style.top = rect.bottom + "px";
             dropdown.style.left = rect.left + "px";
             dropdown.style.width = rect.width + "px";
         });
-
+    
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();
             const lastUpdateDate = localStorage.getItem("lastUpdateDate");
@@ -220,13 +233,13 @@
                 updateDashboard();
             }
         }
-
+    
         function updateDashboard() {
             document.getElementById("totalAmount").textContent = parseFloat(localStorage.getItem("totalAmount") || 0).toFixed(2);
             document.getElementById("totalFees").textContent = parseFloat(localStorage.getItem("totalFees") || 0).toFixed(2);
             document.getElementById("totalUnique").textContent = JSON.parse(localStorage.getItem("uniqueAgents") || "[]").length;
         }
-
+    
         function resetDashboard() {
             localStorage.setItem("lastUpdateDate", new Date().toLocaleDateString());
             localStorage.setItem("totalAmount", "0");
@@ -234,60 +247,107 @@
             localStorage.setItem("uniqueAgents", JSON.stringify([]));
             updateDashboard();
         }
-
+    
         function calculateFees() {
-    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-    const fees = amount * 0.002; // 0.2% of the amount
-    document.getElementById('FEES').value = fees.toFixed(2); // Round to 2 decimal places
-}
-
-
+            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+            const fees = amount * 0.002; // 0.2% of the amount
+            document.getElementById('FEES').value = fees.toFixed(2);
+        }
+    
+        function appendTimestamp() {
+            const now = new Date();
+            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+            document.getElementById('TIMESTAMP').value = timestamp;
+        }
+    
+        function scheduleMidnightReset() {
+            setInterval(() => {
+                const todayDate = new Date().toLocaleDateString();
+                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+                if (lastUpdateDate !== todayDate) {
+                    resetDashboard();
+                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
+                }
+            }, 60 * 1000);
+        }
+    
+        function sendSMS(amount, fees, totalFees) {
+            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233545454000&msg=Head Office has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
+            return fetch(apiUrl)
+                .then(response => response.text())
+                .then(data => console.log("SMS sent successfully", data))
+                .catch(error => console.error("Error sending SMS", error));
+        }
+    
+        function downloadExcel() {
+            const transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
+            if (transactions.length === 0) return alert("No transactions to download.");
+    
+            const worksheet = XLSX.utils.json_to_sheet(transactions);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Transactions");
+    
+            XLSX.writeFile(workbook, `Daily_Transactions_${new Date().toLocaleDateString()}.xlsx`);
+        }
+    
         function handleFormSubmit(event) {
             event.preventDefault();
             appendTimestamp();
-
+    
             const form = document.getElementById("expensesForm");
             const formData = new FormData(form);
+    
             const agentName = document.getElementById("AgentName").value;
             const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
             const fees = parseFloat(document.getElementById('FEES').value) || 0;
-
+            const timestamp = formData.get("TIMESTAMP");
+    
+            // Save transaction with timestamp first
+            let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
+            transactions.push({
+                timestamp,
+                agentName,
+                type: formData.get("TYPE"),
+                amount,
+                fees
+            });
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+    
             const submitButton = form.querySelector("button[type='submit']");
             submitButton.disabled = true;
-
+    
             Swal.fire({
                 title: 'Submitting...',
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             });
-
+    
             const smsPromise = sendSMS(amount, fees, (parseFloat(localStorage.getItem("totalFees")) || 0) + fees);
-
             const formPromise = fetch(form.action, {
                 method: form.method,
                 body: formData
             });
-
+    
             Promise.all([smsPromise, formPromise])
                 .then(([smsResponse, formResponse]) => {
                     if (formResponse.ok) {
                         let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
                         let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
                         let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
-
+    
                         if (!uniqueAgents.includes(agentName)) {
                             uniqueAgents.push(agentName);
                             localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
                         }
-
+    
                         totalAmount += amount;
                         totalFees += fees;
-
+    
                         localStorage.setItem("totalAmount", totalAmount);
                         localStorage.setItem("totalFees", totalFees);
-
+    
                         updateDashboard();
-
+    
                         Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
                         form.reset();
                     } else {
@@ -302,34 +362,10 @@
                     submitButton.disabled = false;
                 });
         }
-
-        function appendTimestamp() {
-            const now = new Date();
-            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-            document.getElementById('TIMESTAMP').value = timestamp;
-        }
-
-        function scheduleMidnightReset() {
-            setInterval(() => {
-                const todayDate = new Date().toLocaleDateString();
-                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-                if (lastUpdateDate !== todayDate) {
-                    resetDashboard();
-                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
-                }
-            }, 60 * 1000);
-        }
-
-        function sendSMS(amount, fees, totalFees) {
-            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233246167502&msg=Head Office has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
-            return fetch(apiUrl)
-                .then(response => response.text())
-                .then(data => console.log("SMS sent successfully", data))
-                .catch(error => console.error("Error sending SMS", error));
-        }
-
+    
         initializeDashboard();
         scheduleMidnightReset();
     </script>
 </body>
-</html>
+</html>    
+    
