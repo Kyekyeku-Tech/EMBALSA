@@ -140,6 +140,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="download-buttons">
+            <button onclick="downloadExcel()">Download Excel</button>
+
+        </div>
+        
         <div class="dashboard">
             <h4>Daily Submission Dashboard</h4>
             <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
@@ -147,33 +152,29 @@
             <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
         </div>
         <img src="emba.jpg" alt="Emba Logo" class="logo">
-        <form id="expensesForm" action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post" onsubmit="return handleFormSubmit(event)">
-            <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
-            <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="HALF ASSINI">
+        <form id="expensesForm" action="https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec" method="post" onsubmit="return handleFormSubmit(event)">
+  <input type="hidden" name="sheetName" value="HALF ASSINI">
+  <input type="hidden" name="TIMESTAMP" id="TIMESTAMP">
 
-            <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" required>
-            <div id="agentDropdown" class="dropdown"></div>
+  <label>Agent Name</label>
+  <input type="text" name="AGENTNAME" id="AgentName" required>
+    <div class="dropdown" id="agentDropdown"></div>
+  <label>Type</label>
+  <select name="TYPE" required>
+    <option value="E-CASH">E-CASH</option>
+    <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+  </select>
+  <label>Amount</label>
+  <input type="number" name="AMOUNT" id="AMOUNT" required oninput="calculateFees()">
+  <label>Fees</label>
+<input type="number" name="FEES" id="FEES" readonly>
 
-            <label for="TYPE">TRANSACTION TYPE</label>
-            <select id="TYPE" name="TYPE" required>
-                <option value="E-CASH">E-CASH</option>
-                <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
-                <option value="Others">Others</option>
-            </select>
-
-            <label for="AMOUNT">AMOUNT</label>
-            <input type="number" id="AMOUNT" name="AMOUNT" oninput="calculateFees()" required>
-
-            <label for="FEES">FEES</label>
-            <input type="number" id="FEES" name="FEES" readonly>
-
-            <button type="submit">Submit</button>
-        </form>
+  <button type="submit">Submit</button>
+</form>
     </div>
 
     <script>
-    const agents = [
+         const agents = [
 "Graphy Enterprise",
 "Good seed of Djabah",
 "Richard Appiah Asiedu",
@@ -207,17 +208,17 @@
 "Peter Kofi Brenya	Peter Kofi Brenya Ventures",
 "Solomon	Paa solo one man venture",
 "Beatrice Anyimah	BEATRICE ANYIMAH",
-"Uncle Tano	Uncle Tano’s Enterprise"
-	
+"Uncle Tano	Uncle Tano’s Enterprise"	
 ];
-        
+
         const agentInput = document.getElementById("AgentName");
         const dropdown = document.getElementById("agentDropdown");
-
+    
         agentInput.addEventListener("input", function () {
             const inputValue = this.value.toLowerCase();
             dropdown.innerHTML = "";
             dropdown.style.display = "none";
+    
             if (inputValue.length >= 2) {
                 const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
                 if (matches.length > 0) {
@@ -234,20 +235,20 @@
                 }
             }
         });
-
+    
         document.addEventListener("click", function (e) {
             if (!agentInput.contains(e.target) && !dropdown.contains(e.target)) {
                 dropdown.style.display = "none";
             }
         });
-
+    
         agentInput.addEventListener("focus", function () {
             const rect = agentInput.getBoundingClientRect();
             dropdown.style.top = rect.bottom + "px";
             dropdown.style.left = rect.left + "px";
             dropdown.style.width = rect.width + "px";
         });
-
+    
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();
             const lastUpdateDate = localStorage.getItem("lastUpdateDate");
@@ -257,13 +258,13 @@
                 updateDashboard();
             }
         }
-
+    
         function updateDashboard() {
             document.getElementById("totalAmount").textContent = parseFloat(localStorage.getItem("totalAmount") || 0).toFixed(2);
             document.getElementById("totalFees").textContent = parseFloat(localStorage.getItem("totalFees") || 0).toFixed(2);
             document.getElementById("totalUnique").textContent = JSON.parse(localStorage.getItem("uniqueAgents") || "[]").length;
         }
-
+    
         function resetDashboard() {
             localStorage.setItem("lastUpdateDate", new Date().toLocaleDateString());
             localStorage.setItem("totalAmount", "0");
@@ -271,60 +272,107 @@
             localStorage.setItem("uniqueAgents", JSON.stringify([]));
             updateDashboard();
         }
-
+    
         function calculateFees() {
-    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-    const fees = amount * 0.002; // 0.2% of the amount
-    document.getElementById('FEES').value = fees.toFixed(2); // Round to 2 decimal places
-}
-
-
+            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+            const fees = amount * 0.002; // 0.2% of the amount
+            document.getElementById('FEES').value = fees.toFixed(2);
+        }
+    
+        function appendTimestamp() {
+            const now = new Date();
+            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+            document.getElementById('TIMESTAMP').value = timestamp;
+        }
+    
+        function scheduleMidnightReset() {
+            setInterval(() => {
+                const todayDate = new Date().toLocaleDateString();
+                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+                if (lastUpdateDate !== todayDate) {
+                    resetDashboard();
+                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
+                }
+            }, 60 * 1000);
+        }
+    
+        function sendSMS(amount, fees, totalFees) {
+            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233545454000&msg=Head Office has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
+            return fetch(apiUrl)
+                .then(response => response.text())
+                .then(data => console.log("SMS sent successfully", data))
+                .catch(error => console.error("Error sending SMS", error));
+        }
+    
+        function downloadExcel() {
+            const transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
+            if (transactions.length === 0) return alert("No transactions to download.");
+    
+            const worksheet = XLSX.utils.json_to_sheet(transactions);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Transactions");
+    
+            XLSX.writeFile(workbook, `Daily_Transactions_${new Date().toLocaleDateString()}.xlsx`);
+        }
+    
         function handleFormSubmit(event) {
             event.preventDefault();
             appendTimestamp();
-
+    
             const form = document.getElementById("expensesForm");
             const formData = new FormData(form);
+    
             const agentName = document.getElementById("AgentName").value;
             const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
             const fees = parseFloat(document.getElementById('FEES').value) || 0;
-
+            const timestamp = formData.get("TIMESTAMP");
+    
+            // Save transaction with timestamp first
+            let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
+            transactions.push({
+                timestamp,
+                agentName,
+                type: formData.get("TYPE"),
+                amount,
+                fees
+            });
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+    
             const submitButton = form.querySelector("button[type='submit']");
             submitButton.disabled = true;
-
+    
             Swal.fire({
                 title: 'Submitting...',
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             });
-
+    
             const smsPromise = sendSMS(amount, fees, (parseFloat(localStorage.getItem("totalFees")) || 0) + fees);
-
             const formPromise = fetch(form.action, {
                 method: form.method,
                 body: formData
             });
-
+    
             Promise.all([smsPromise, formPromise])
                 .then(([smsResponse, formResponse]) => {
                     if (formResponse.ok) {
                         let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
                         let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
                         let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
-
+    
                         if (!uniqueAgents.includes(agentName)) {
                             uniqueAgents.push(agentName);
                             localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
                         }
-
+    
                         totalAmount += amount;
                         totalFees += fees;
-
+    
                         localStorage.setItem("totalAmount", totalAmount);
                         localStorage.setItem("totalFees", totalFees);
-
+    
                         updateDashboard();
-
+    
                         Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
                         form.reset();
                     } else {
@@ -339,35 +387,10 @@
                     submitButton.disabled = false;
                 });
         }
-
-
-        function appendTimestamp() {
-            const now = new Date();
-            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-            document.getElementById('TIMESTAMP').value = timestamp;
-        }
-
-        function scheduleMidnightReset() {
-            setInterval(() => {
-                const todayDate = new Date().toLocaleDateString();
-                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-                if (lastUpdateDate !== todayDate) {
-                    resetDashboard();
-                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
-                }
-            }, 60 * 1000);
-        }
-
-        function sendSMS(amount, fees, totalFees) {
-            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233545454000&msg=Half Assini Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
-            return fetch(apiUrl)
-                .then(response => response.text())
-                .then(data => console.log("SMS sent successfully", data))
-                .catch(error => console.error("Error sending SMS", error));
-        }
-
+    
         initializeDashboard();
         scheduleMidnightReset();
     </script>
 </body>
-</html>
+</html>    
+    

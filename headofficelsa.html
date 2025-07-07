@@ -155,33 +155,30 @@
             <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
         </div>
         <img src="emba.jpg" alt="Emba Logo" class="logo">
-        <form id="expensesForm" action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post" onsubmit="return handleFormSubmit(event)">
-            <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
-            <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="HEAD OFFICE">
+        <form id="expensesForm" action="https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec" method="post" onsubmit="return handleFormSubmit(event)">
+  <input type="hidden" name="sheetName" value="HEAD OFFICE">
+  <input type="hidden" name="TIMESTAMP" id="TIMESTAMP">
 
-            <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" required>
-            <div id="agentDropdown" class="dropdown"></div>
+  <label>Agent Name</label>
+  <input type="text" name="AGENTNAME" id="AgentName" required>
+    <div class="dropdown" id="agentDropdown"></div>
+  <label>Type</label>
+  <select name="TYPE" required>
+    <option value="E-CASH">E-CASH</option>
+    <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+  </select>
+  <label>Amount</label>
+  <input type="number" name="AMOUNT" id="AMOUNT" required oninput="calculateFees()">
+  <label>Fees</label>
+<input type="number" name="FEES" id="FEES" readonly>
 
-            <label for="TYPE">TRANSACTION TYPE</label>
-            <select id="TYPE" name="TYPE" required>
-                <option value="E-CASH">E-CASH</option>
-                <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
-                <option value="Others">Others</option>
-            </select>
 
-            <label for="AMOUNT">AMOUNT</label>
-            <input type="number" id="AMOUNT" name="AMOUNT" oninput="calculateFees()" required>
-
-            <label for="FEES">FEES</label>
-            <input type="number" id="FEES" name="FEES" readonly>
-
-            <button type="submit">Submit</button>
-        </form>
+  <button type="submit">Submit</button>
+</form>
     </div>
 
     <script>
-        const agents = ["New Agent"];
+        const agents = ["New Agent",];
 
         const agentInput = document.getElementById("AgentName");
         const dropdown = document.getElementById("agentDropdown");
