@@ -1,180 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Submission Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-image: url('lsa.png');
-            color: #f8f3f3;
-        }
-        .container {
-            width: 100%;
-            max-width: 450px;
-            background: rgba(0, 1, 7, 0.733);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            position: relative;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .logo {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 60px;
-            height: auto;
-        }
-        h3 {
-            color: #2575fc;
-            margin-bottom: 20px;
-        }
-        form {
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #f8f5f5;
-        }
-        input, select {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            box-shadow: 0 1px 2px rgba(39, 2, 250, 0.8);
-            box-sizing: border-box;
-        }
-        input:focus, select:focus {
-            outline: none;
-            box-shadow: 0 0 8px rgb(26, 2, 240);
-        }
-        button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 10px;
-            background: linear-gradient(90deg, #007bff, #004080);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background: linear-gradient(90deg, #0056b3, #002a50);
-        }
-        .dashboard {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(39, 2, 250, 0.08);
-            border: 1px solid #2575fc;
-            border-radius: 10px;
-        }
-        .dashboard h4 {
-            margin: 0 0 10px;
-            color: #2575fc;
-        }
-        .totals {
-            margin: 5px 0;
-            font-size: 16px;
-            color: #f5f1f1;
-            font-weight: bold;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .dropdown {
-    position: absolute;
-    width: 100%;
-    max-width: 420px; /* Match input field width */
-    background: white;
-    color: black;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(2, 6, 253, 0.993);
-    display: none;
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
-    font-size: 14px;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Submission Dashboard</title>
+  
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- SheetJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-.dropdown div {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #f00707;
-}
-
-.dropdown div:last-child {
-    border-bottom: none;
-}
-
-.dropdown div:hover {
-    background: #2600ff;
-    color: white;
-}
-
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    /* ...same styles from your original (unchanged)... */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-image: url('lsa.png');
+      color: #f8f3f3;
+    }
+    .container {
+      width: 100%;
+      max-width: 450px;
+      background: rgba(0, 1, 7, 0.733);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      position: relative;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .logo {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 60px;
+      height: auto;
+    }
+    h3 {
+      color: #2776fd;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #f8f5f5;
+      text-align: left;
+    }
+    input, select {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 1px 2px rgba(39, 2, 250, 0.8);
+      box-sizing: border-box;
+    }
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgb(26, 2, 240);
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      margin-top: 10px;
+      background: linear-gradient(90deg, #007bff, #004080);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #9bf12bde, #ecf005);
+      color: black;
+    }
+    .dashboard {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(39, 2, 250, 0.08);
+      border: 1px solid #2575fc;
+      border-radius: 10px;
+    }
+    .dashboard h4 {
+      margin: 0 0 10px;
+      color: #2575fc;
+    }
+    .totals {
+      margin: 5px 0;
+      font-size: 16px;
+      color: #f5f1f1;
+      font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .dropdown {
+      position: absolute;
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      color: black;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(2, 6, 253, 0.993);
+      display: none;
+      z-index: 1000;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .dropdown div {
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #f00707;
+    }
+    .dropdown div:last-child {
+      border-bottom: none;
+    }
+    .dropdown div:hover {
+      background: #2600ff;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="dashboard">
-            <h4>Daily Submission Dashboard</h4>
-            <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
-            <p class="totals">Total Fees: GHC <span id="totalFees">0</span></p>
-            <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
-        </div>
-        <img src="emba.jpg" alt="Emba Logo" class="logo">
-        <form id="expensesForm" action="https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec" method="post" onsubmit="return handleFormSubmit(event)">
-  <input type="hidden" name="sheetName" value="AXIM">
-  <input type="hidden" name="TIMESTAMP" id="TIMESTAMP">
-
-            <label for="AgentName">AGENT NAME</label>
-            <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" required>
-            <div id="agentDropdown" class="dropdown"></div>
-
-            <label for="TYPE">TRANSACTION TYPE</label>
-            <select id="TYPE" name="TYPE" required>
-                <option value="E-CASH">E-CASH</option>
-                <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
-                <option value="Others">Others</option>
-            </select>
-
-            <label for="AMOUNT">AMOUNT</label>
-            <input type="number" id="AMOUNT" name="AMOUNT" oninput="calculateFees()" required>
-
-            <label for="FEES">FEES</label>
-            <input type="number" id="FEES" name="FEES" readonly>
-
-            <button type="submit">Submit</button>
-        </form>
+  <!-- Submission Form Container -->
+  <div class="container" id="submissionContainer">
+    <div class="download-buttons">
+      <button onclick="toggleStatementForm()">Get Statement</button>
     </div>
 
-    <script>
-    const agents = [
-"R.C ELECTRICALS",
+    <div class="dashboard">
+      <h4>Daily Submission Dashboard</h4>
+      <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
+      <p class="totals">Total Fees: GHC <span id="totalFees">0</span></p>
+      <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
+    </div>
+
+    <img src="emba.jpg" alt="Emba Logo" class="logo">
+
+    <form id="expensesForm" action="https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec" method="post" onsubmit="return handleFormSubmit(event)">
+      <input type="hidden" name="sheetName" value="AXIM">
+      <input type="hidden" name="TIMESTAMP" id="TIMESTAMP">
+
+      <label>Agent Name</label>
+      <input type="text" name="AGENTNAME" id="AgentName" required>
+      <div class="dropdown" id="agentDropdown"></div>
+
+      <label>Type</label>
+      <select name="TYPE" required>
+        <option value="E-CASH">E-CASH</option>
+        <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+      </select>
+
+      <label>Amount</label>
+      <input type="number" name="AMOUNT" id="AMOUNT" required oninput="calculateFees()">
+
+      <label>Fees</label>
+      <input type="number" name="FEES" id="FEES" readonly>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Statement Container -->
+  <div class="container" id="statementContainer" style="display: none;">
+    <h3 style="color: #fff;">Download Submission Statement</h3>
+
+    <label for="sheetName">Select Sheet</label>
+    <select id="sheetName">
+      <option value="AXIM">AXIM</option>
+      <!-- More sheets can be added here -->
+    </select>
+
+    <label for="allStartDate">Start Date</label>
+    <input type="date" id="allStartDate" required>
+
+    <label for="allEndDate">End Date</label>
+    <input type="date" id="allEndDate" required>
+
+    <button onclick="downloadAllSubmissions()">Download Statement</button>
+    <button onclick="toggleStatementForm()" style="margin-top: 10px;">Back to Form</button>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    async function downloadAllSubmissions() {
+    const startDate = document.getElementById("allStartDate").value;
+    const endDate = document.getElementById("allEndDate").value;
+    const sheetName = document.getElementById("sheetName").value;
+
+    if (!startDate || !endDate || !sheetName) {
+      return Swal.fire("Missing Input", "Please fill all fields.", "warning");
+    }
+
+    const url = `https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec?sheetName=${encodeURIComponent(sheetName)}&startDate=${startDate}&endDate=${endDate}`;
+
+    Swal.fire({ title: "Fetching...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!data || data.length <= 1) {
+        return Swal.fire("No Records", "No submissions found in this date range.", "info");
+      }
+
+      const sheet = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, sheet, "Submissions");
+
+      const filename = `All_Submissions_${sheetName}_${startDate}_to_${endDate}.xlsx`;
+      XLSX.writeFile(wb, filename);
+
+      Swal.close();
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", "Could not fetch data.", "error");
+    }
+  }
+     const agents = [
+  "R.C ELECTRICALS",
 "Born Rich Ent",
 "Bilal phones and Accessories", 
 "Ohemaa Mercy Ventures", 
@@ -217,14 +279,15 @@
 "EMMANUEL FOSU ENTERPRISE",
 "COMFORT MENSAH -CMENS"
 ];
-        
+
         const agentInput = document.getElementById("AgentName");
         const dropdown = document.getElementById("agentDropdown");
-
+    
         agentInput.addEventListener("input", function () {
             const inputValue = this.value.toLowerCase();
             dropdown.innerHTML = "";
             dropdown.style.display = "none";
+    
             if (inputValue.length >= 2) {
                 const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
                 if (matches.length > 0) {
@@ -241,20 +304,20 @@
                 }
             }
         });
-
+    
         document.addEventListener("click", function (e) {
             if (!agentInput.contains(e.target) && !dropdown.contains(e.target)) {
                 dropdown.style.display = "none";
             }
         });
-
+    
         agentInput.addEventListener("focus", function () {
             const rect = agentInput.getBoundingClientRect();
             dropdown.style.top = rect.bottom + "px";
             dropdown.style.left = rect.left + "px";
             dropdown.style.width = rect.width + "px";
         });
-
+    
         function initializeDashboard() {
             const todayDate = new Date().toLocaleDateString();
             const lastUpdateDate = localStorage.getItem("lastUpdateDate");
@@ -264,13 +327,13 @@
                 updateDashboard();
             }
         }
-
+    
         function updateDashboard() {
             document.getElementById("totalAmount").textContent = parseFloat(localStorage.getItem("totalAmount") || 0).toFixed(2);
             document.getElementById("totalFees").textContent = parseFloat(localStorage.getItem("totalFees") || 0).toFixed(2);
             document.getElementById("totalUnique").textContent = JSON.parse(localStorage.getItem("uniqueAgents") || "[]").length;
         }
-
+    
         function resetDashboard() {
             localStorage.setItem("lastUpdateDate", new Date().toLocaleDateString());
             localStorage.setItem("totalAmount", "0");
@@ -278,60 +341,96 @@
             localStorage.setItem("uniqueAgents", JSON.stringify([]));
             updateDashboard();
         }
-
+    
         function calculateFees() {
-    const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-    const fees = amount * 0.002; // 0.2% of the amount
-    document.getElementById('FEES').value = fees.toFixed(2); // Round to 2 decimal places
-}
-
+            const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+            const fees = amount * 0.002; // 0.2% of the amount
+            document.getElementById('FEES').value = fees.toFixed(2);
+        }
+    
+        function appendTimestamp() {
+            const now = new Date();
+            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+            document.getElementById('TIMESTAMP').value = timestamp;
+        }
+    
+        function scheduleMidnightReset() {
+            setInterval(() => {
+                const todayDate = new Date().toLocaleDateString();
+                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+                if (lastUpdateDate !== todayDate) {
+                    resetDashboard();
+                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
+                }
+            }, 60 * 1000);
+        }
+    
+        function sendSMS(amount, fees, totalFees) {
+            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233550848284&msg=AXIM Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
+            return fetch(apiUrl)
+                .then(response => response.text())
+                .then(data => console.log("SMS sent successfully", data))
+                .catch(error => console.error("Error sending SMS", error));
+        }
 
         function handleFormSubmit(event) {
             event.preventDefault();
             appendTimestamp();
-
+    
             const form = document.getElementById("expensesForm");
             const formData = new FormData(form);
+    
             const agentName = document.getElementById("AgentName").value;
             const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
             const fees = parseFloat(document.getElementById('FEES').value) || 0;
-
+            const timestamp = formData.get("TIMESTAMP");
+    
+            // Save transaction with timestamp first
+            let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
+            transactions.push({
+                timestamp,
+                agentName,
+                type: formData.get("TYPE"),
+                amount,
+                fees
+            });
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+    
             const submitButton = form.querySelector("button[type='submit']");
             submitButton.disabled = true;
-
+    
             Swal.fire({
                 title: 'Submitting...',
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             });
-
+    
             const smsPromise = sendSMS(amount, fees, (parseFloat(localStorage.getItem("totalFees")) || 0) + fees);
-
             const formPromise = fetch(form.action, {
                 method: form.method,
                 body: formData
             });
-
+    
             Promise.all([smsPromise, formPromise])
                 .then(([smsResponse, formResponse]) => {
                     if (formResponse.ok) {
                         let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
                         let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
                         let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
-
+    
                         if (!uniqueAgents.includes(agentName)) {
                             uniqueAgents.push(agentName);
                             localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
                         }
-
+    
                         totalAmount += amount;
                         totalFees += fees;
-
+    
                         localStorage.setItem("totalAmount", totalAmount);
                         localStorage.setItem("totalFees", totalFees);
-
+    
                         updateDashboard();
-
+    
                         Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
                         form.reset();
                     } else {
@@ -346,34 +445,16 @@
                     submitButton.disabled = false;
                 });
         }
-        
-        function appendTimestamp() {
-            const now = new Date();
-            const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-            document.getElementById('TIMESTAMP').value = timestamp;
-        }
+    // The toggle fix
+    function toggleStatementForm() {
+      const submission = document.getElementById("submissionContainer");
+      const statement = document.getElementById("statementContainer");
+      submission.style.display = submission.style.display === "none" ? "block" : "none";
+      statement.style.display = statement.style.display === "none" ? "block" : "none";
+    }
 
-        function scheduleMidnightReset() {
-            setInterval(() => {
-                const todayDate = new Date().toLocaleDateString();
-                const lastUpdateDate = localStorage.getItem("lastUpdateDate");
-                if (lastUpdateDate !== todayDate) {
-                    resetDashboard();
-                    Swal.fire("New Day!", "Dashboard reset for today.", "info");
-                }
-            }, 60 * 1000);
-        }
-
-        function sendSMS(amount, fees, totalFees) {
-            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233550848284&msg=Axim Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
-            return fetch(apiUrl)
-                .then(response => response.text())
-                .then(data => console.log("SMS sent successfully", data))
-                .catch(error => console.error("Error sending SMS", error));
-        }
-
-        initializeDashboard();
-        scheduleMidnightReset();
-    </script>
+    initializeDashboard();
+    scheduleMidnightReset();
+  </script>
 </body>
 </html>

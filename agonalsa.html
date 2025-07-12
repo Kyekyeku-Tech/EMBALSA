@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Submission Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Submission Dashboard</title>
+  
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- SheetJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -47,6 +53,7 @@
             margin-bottom: 8px;
             font-weight: bold;
             color: #f8f5f5;
+            text-align: left;
         }
         input, select {
             width: 100%;
@@ -139,7 +146,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="container">
+    <!-- Submission Form Container -->
+  <div class="container" id="submissionContainer">
+    <div class="download-buttons">
+      <button onclick="toggleStatementForm()">Get Statement</button>
+    </div>
         <div class="dashboard">
             <h4>Daily Submission Dashboard</h4>
             <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
@@ -150,7 +161,8 @@
         <form id="expensesForm" action="https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec" method="post" onsubmit="return handleFormSubmit(event)">
   <input type="hidden" name="sheetName" value="AGONA">
             <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
-            <label for="TYPE">WHO ARE YOU ?</label>
+
+            <label for="TYPE">Who Are You ?</label>
             <select id="DSRName" name="DSRName" required>
                 <option value="">Select Your Name here.</option>
                 <option value="ELVIS">ELVIS</option>
@@ -158,18 +170,18 @@
                 <option value="BRANCH">BRANCH</option>
             </select>
 
-            <label for="AgentName">AGENT NAME</label>
+            <label for="AgentName">Agent Name</label>
             <input type="text" id="AgentName" name="AGENTNAME" placeholder="Enter Agent Name" required>
             <div id="agentDropdown" class="dropdown"></div>
 
-            <label for="TYPE">TRANSACTION TYPE</label>
+            <label for="TYPE">Transaction Type</label>
             <select id="TYPE" name="TYPE" required>
                 <option value="E-CASH">E-CASH</option>
                 <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
                 <option value="Others">Others</option>
             </select>
 
-            <label for="AMOUNT">AMOUNT</label>
+            <label for="AMOUNT">Amount</label>
             <input type="number" id="AMOUNT" name="AMOUNT" oninput="calculateFees()" required>
 
             <label for="FEES">FEES</label>
@@ -178,8 +190,60 @@
             <button type="submit">Submit</button>
         </form>
     </div>
+    <div class="container" id="statementContainer" style="display: none;">
+    <h3 style="color: #fff;">Download Submission Statement</h3>
+
+    <label for="sheetName">Select Sheet</label>
+    <select id="sheetName">
+      <option value="AGONA">AGONA</option>
+      <!-- More sheets can be added here -->
+    </select>
+
+    <label for="allStartDate">Start Date</label>
+    <input type="date" id="allStartDate" required>
+
+    <label for="allEndDate">End Date</label>
+    <input type="date" id="allEndDate" required>
+
+    <button onclick="downloadAllSubmissions()">Download Statement</button>
+    <button onclick="toggleStatementForm()" style="margin-top: 10px;">Back to Form</button>
+  </div>
 
     <script>
+        async function downloadAllSubmissions() {
+    const startDate = document.getElementById("allStartDate").value;
+    const endDate = document.getElementById("allEndDate").value;
+    const sheetName = document.getElementById("sheetName").value;
+
+    if (!startDate || !endDate || !sheetName) {
+      return Swal.fire("Missing Input", "Please fill all fields.", "warning");
+    }
+
+    const url = `https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec?sheetName=${encodeURIComponent(sheetName)}&startDate=${startDate}&endDate=${endDate}`;
+
+    Swal.fire({ title: "Fetching...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!data || data.length <= 1) {
+        return Swal.fire("No Records", "No submissions found in this date range.", "info");
+      }
+
+      const sheet = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, sheet, "Submissions");
+
+      const filename = `All_Submissions_${sheetName}_${startDate}_to_${endDate}.xlsx`;
+      XLSX.writeFile(wb, filename);
+
+      Swal.close();
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", "Could not fetch data.", "error");
+    }
+  }
     const agents = [
 "RICHARD NANA MENSAH", 
 "Esther Appoh",
@@ -596,8 +660,15 @@
 }
 
 
-        initializeDashboard();
-        scheduleMidnightReset();
+        function toggleStatementForm() {
+      const submission = document.getElementById("submissionContainer");
+      const statement = document.getElementById("statementContainer");
+      submission.style.display = submission.style.display === "none" ? "block" : "none";
+      statement.style.display = statement.style.display === "none" ? "block" : "none";
+    }
+
+    initializeDashboard();
+    scheduleMidnightReset();
     </script>
 </body>
 </html>

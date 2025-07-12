@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agona New Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background-image: url('MTN-1.png');
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Arial', sans-serif;
-        }
-        .form-container {
-            background: rgba(0, 1, 10, 0.473);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(43, 3, 218, 0.767);
-            width: 100%;
-            max-width: 500px;
-        }
-        .form-container h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
-            color: #fcfafa;
-        }
-        .form-container label {
-            color: #fcfafa;
-        }
-        .logo {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 80px;
-            height: auto;
-        }
-        .toggle-link {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anaji New Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      background-image: url('MTN-1.png');
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 2rem;
+      font-family: 'Arial', sans-serif;
+    }
+    .form-container {
+      background: rgba(0, 1, 10, 0.6);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(43, 3, 218, 0.767);
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .form-container h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+      color: #fcfafa;
+    }
+    .form-container label {
+      color: #fcfafa;
+    }
+    .logo {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 80px;
+      height: auto;
+    }
+    .toggle-link {
       margin-top: 15px;
       font-size: 14px;
       color: #fc0b03;
       cursor: pointer;
-      border-radius: 2px;
-      
     }
     .toggle-link a {
       color: inherit;
@@ -54,84 +55,392 @@
     .toggle-link a:hover {
       text-decoration: underline;
     }
-    </style>
+    .list-container {
+      background: #ffffffdc;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      width: 100%;
+      max-width: 600px;
+    }
+    .total {
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    #agentList {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    #agentList li {
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <a href="mailto:info@kyekyeku.tech">
-            <img src="emba.jpg" alt="Emba Logo" class="logo">
-        </a>
-        <h1>New Agent Reg.</h1>
-        <form id="agentForm" action="https://api.sheetmonkey.io/form/3Z9cWbbWx73ucYjQM1HsAQ" method="POST">
-            <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="AGONA">
-            <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
-            <div class="mb-3">
-                <label for="agentName" class="form-label">Agent Name</label>
-                <input type="text" id="agentName" name="Agent Name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="businessName" class="form-label">Business Name</label>
-                <input type="text" id="businessName" name="Business Name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="agentNumber" class="form-label">Agent Number</label>
-                <input type="tel" id="agentNumber" name="Agent Number" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="personalNumber" class="form-label">Personal Number</label>
-                <input type="tel" id="personalNumber" name="Personal Number" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" id="location" name="Location" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
-            <div class="toggle-link">
-                <a href="delink.html">Agent want to leave? De-link</a>
-              </div>
-        </form>
+  <div class="form-container">
+    <img src="emba.jpg" alt="Emba Logo" class="logo" />
+    <h1>New Agent Reg.</h1>
+    <form id="agentForm" action="https://api.sheetmonkey.io/form/3Z9cWbbWx73ucYjQM1HsAQ" method="POST">
+      <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="ANAJI-K">
+      <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
+
+      <div class="mb-3">
+        <label for="agentName" class="form-label">Agent Name</label>
+        <input type="text" id="agentName" name="Agent Name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="businessName" class="form-label">Business Name</label>
+        <input type="text" id="businessName" name="Business Name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="agentNumber" class="form-label">Agent Number</label>
+        <input type="tel" id="agentNumber" name="Agent Number" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="personalNumber" class="form-label">Personal Number</label>
+        <input type="tel" id="personalNumber" name="Personal Number" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" id="location" name="Location" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Submit</button>
+      <div class="toggle-link">
+        <a href="delink.html">Agent want to leave? De-link</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="list-container">
+    <h1>Agent Registered</h1>
+    <button class="btn btn-secondary mb-3" onclick="toggleAgents()">View Agents</button>
+    <div id="agentSection" style="display: none;">
+      <div class="total" id="totalCount">Total Agents: 0</div>
+      <ul id="agentList"></ul>
     </div>
+  </div>
+
+  <script>
+    let agents = JSON.parse(localStorage.getItem("agents")) || [
     
-    <script>
+"RICHARD NANA MENSAH", 
+"Esther Appoh",
+"Mickeyrine Ventures",
+"Helena Cudjoe", 
+"Robert Ben Gaisey",
+"Mose Mensah Aboagye",
+"Mose Akugre",
+"Beatrice kesson",
+"Bessman Ventures",
+"DK-Yirenkyi",
+"Infinity innovation",
+"Generosity Communication", 
+"Brace ventures ",
+"Honour The King",
+"Time Heals Chop bar Tarkwa", 
+"David Kwabena Kwofie Ent",
+"Sac 3 logistics", 
+"Nador Victor Ventures", 
+"LA PERIE GRAFFICS ENTERPRISE", 
+"Becky Ventures", 
+"Sheek Ventures", 
+"Master mind Ventures", 
+"Rahtifa Enterprise", 
+"Gate Capital Plus 2", 
+"Alex D pendable",
+"Kafupo Enterprise",
+"Godlife Adjei Solomon enterprise", 
+"Judycem Enterprise Agona Nkwanta", 
+"Ronaldo Ent",
+"E-BONITO ENT", 
+"Senior Joseph Business Center", 
+"Nana KWAW Enterprise", 
+"God is Able Ventures", 
+"Agyenim Boateng Ent",
+"Shall Gold Ventures",
+"God is Good", 
+"MM Seventy Three  Western WR REG",
+"Showers If Grace Enterprise", 
+"Gloria Ventures",
+"Pat Richy Ventures", 
+"The Most High", 
+"Kob Gyasi",
+"Ahmed Yankey Enterprise", 
+"Bullet Zone Business zlink",
+"GADDE YOU THINK ENTERPRISE",
+"Ellebright ventures",
+"ICELLHUB ENTERPRISE",
+"Archer  Paul Kesse",
+"Lynn's ventures",
+"FRABERNICK VENTURES", 
+"Dominic Adolwini Atibila",
+"Ali Shaibu 92 Ventures",
+"Allah Is The Greatest",
+"DORBUDU VENTURES",
+"GIDEONLIT VENTURES",
+"FOSA 98",
+"Nyame Ahomobro", 
+"MM 77 WESTERN REGION", 
+"Arngeof Ventures", 
+"Don Ziggy Ent-Simon Appiah Cudjoe",
+"Nicholas Acheampong Enterprise", 
+"Gideon Kofi Prah",
+"Emma Greate",
+"Richard Okyere nyarkoh", 
+"Capitano ventures",
+"Leticia Sowudu",
+"Ellebright ventures1", 
+"Ambient Electricals",
+"Kingshoot2 ventures",
+"ERIFRACE",
+"TETMARG HONESTLY ENTERPRISE", 
+"Obed Quaicoe",
+"Miqasant star ventures",
+"Linda Leonie Abakro",
+"Lee- Eagle Enterprise one",
+"Priscilla Ama Kwofie",
+"Veronica Prah",
+"ENNIN VENTURES-Lydia",
+"Charles kojo -Rock 2 Ventures",
+"God’s Gift Communication-lUCAS",
+"JQ REAL SOLUTIONS-Ebenezer",
+"Ismaela Jebril",
+"HERMAN SARBENG ASEBRESE-Millicent",
+"EVANS KONLAN-Eva Konla",
+"Chadis-Q Ventures",
+"Nyameous Lucky Ventures-Robert",
+"Emmanuel Ansah-Mobe Ka me",
+"Vera Amekor-COMFORT BAID",
+"Blessed Benedict Enterprise",
+"Ebenezer Mungoh-Mungoh Enterprise",
+"Rans Ventures -Ransford Quarshie",
+"Janet Annane Enterprise -Charity Asare",
+"Benzito Electricals - David K Mensah",
+"Albie 2022 Ventures - Alberta Mensah",
+"MAGBEE ENTERPRISE - Margaret Mensah",
+"Jues Ent", 
+"Ecophlia Ventures - Ophelia Akosua Brago",
+"IKE VENTURES - Isaac Mensah",
+"Job Jaabs Ventures - Samuel Bamfo",
+"Precious Otuwah - S .BON",
+"Samuel Owusu - In him is life",
+"Wack Two Ventures-Gifty Danso",
+"Philip 87 telecom -Philip Egyrenyi",
+"Richie Morris ventures -Richard Oboh Morrison",
+"Emelia Effah Ventures -Emelia Effah", 
+"Agrich Enterprise-Agrich Enterprise", 
+"Burry Money - Rudolpha Ashiagbor",
+"Afodick Ventures -Edward Obeng Ofosu",
+"Cobbinah - David",
+"Navame Ventures -Godfred Essah",
+"Amediku Ventures -Daniel Amediku",
+"Self Made Entertainment -Joel Bankom", 
+"Obed K Enimah Telecom-Obed Enimah",
+"Agirich Enterprise -Agnes Essien",
+"Cash man Ventures -Kofi Ansah",
+"God is My Hope -Rosemary Ama Yalley", 
+"Reckey Impex ventures -Stephen Appiah", 
+"VR-OTI MPOS ACCESS 028 -Janet Quansah", 
+"Nhyira Nka Nyame -Faustina Tobah",
+"Seth Arhin	ADS VENTURES", 
+"Samuel Amankwah -Psalm 81:1",
+"Emmanuel Andoh Nadnesy Ventures", 
+"David Prah David Prah",
+"Esther Appoh He Can He",
+"Mary Asante Mary success", 
+"Daniel Acquah 	Big Dan Acquah",
+"Elijah Basiemah-Rise up Again", 
+"Frank Say	Frank Say",
+"Bernard Gyan-Gyandolf Enterprise",
+"Emilia Effah Ventures 	Emilia Effah",
+"Adonai Business Centre Adonai Business Centre",
+"John Alex Nzeh	C6C Enterprise", 
+"Jamal Majeed -Jamaica Plus Enterprise",
+"Jude Addae Jude .A 0800 Ventures", 
+"Leticia Kwofie Fovour From God",
+"DICKSON ALOYSIUS -ADS VENTURES",
+"Solomon Opoku 	The Games2 Ventures",
+"Solomon Opoku 	The Games1 ventures",
+"Richard Adjei 	Third Exodus ventures", 
+"Juliet Kwaku	Juliet Kaku Enterprise",
+"Benjamin Narh Tetteh 	Benjamin Narh Tetteh", 
+"Bismark Yilaku Essuman	Ess- Bisani Enterprise",
+"Hawa Dawida -Made with Hawa",
+"Enoch Ocran -Enochus Design", 
+"Fred Attivor-Matrust Ghana Limited", 
+"Roger Osei Tutu -Roger Osei Tutu",
+"Ebenezer Gyan 	Priceless enterprise",
+"Philip Egyrenyi 1	Philip 87 Telecom1",
+"Gifty Banso Adonai Business Centre",
+"Solomon Quayson Solomon Quayson",
+"Solomon Cobbinah SOLO ROYAL VENTURES",
+"Daniel Mensah 	Danvick ventures",
+"Ebenezer mungoh Mungoh enterprise2",
+"Frank Twumasi 	Chrestos Call",
+"Juliet Kaku -Juliet Kwaku Enterprise",
+"Joshua Nyame Essien Time Heals Chop Bar",
+"Julius Bosque-Hamilton	JBH Topline Ventures", 
+"Precious Otuwah -S- Bon Enterprise", 
+"Samuel Donkor 	Donsam Servicing And Spa are Partss",
+"Edward Karikari -Katos-Eddglo Ventures",
+"SHEDRACK MINTAH	GOD IS GOD IS GOOD",
+"ATTA AGYEMAN	ADOM ARE KWA VENTURES", 
+"Jechoriah Dartey	Jechoriahs Success Enterprise", 
+"Francis Obeng 	Trust and Hope Ventures", 
+"Gordon Atongo Aduah -Jemaca Guy",
+"Daniel De- Graft	Danzibite Mindset",
+"Paulina Bessaw -Lines Enterprise",
+"Onyameos -Onyameos",
+"Edikanfo -Edikanfo",
+"Paulina -Linbes Ent",
+"Paulina Aidoo	Eagle Time Enterprise",
+"Emmanuel Kwame Yankey 	MELYANKEY",
+"Daniel Acquah 	Big Dan Acquah", 
+"Jacob Dadzie 	Jacob Well Enterprise", 
+"Justice Ansah 	Just Ansah",
+"Salifu Musah	Salifu Musah",
+"Christabel Arbenser -Christabe Arbenser enterprise", 
+"Emmanuel Bonney -E-BONTO",
+"Emmanuel  Junior Vision Selase -Vision Ventures", 
+"Richard Lamptey -360 Phones",
+"Moses Asare -Mother's Love",
+"Ruth Mensah Ruthmic Verse",
+"Michael Fynn-Michael Fynn",
+"Sackey Gifty -Swift Cleaning Service", 
+"Navame Navame Ventures", 
+"Alex Kwofie -AlexKwofie",
+"Eric Baidoo -Erico Godfirst money Second vent",
+"Anthony Nyameboom Aikins -Edikanfo Nhyira Company", 
+"Ruth -RUTHMIC",
+"Salifu Musah -Salifu Musah",
+"Richard Nyarko -Richard Nyarko",
+"Wisdom -Eagle time ventures 1",
+"Fredrick -Fredo unique Business Centre",
+"Anthony K Eshun -Blessed Virgin Mary",
+"Priscilla Anlimah -Jeohard Ventures", 
+"Arthur Millcent -AM Enterprise",
+"Samuel Ansah -Ansah Paradise", 
+"Nevame Ent -Nevame Ent",
+"Sebuabey Godfred Eden -Sebdem Ventures", 
+"Pauline Aidoo 	Eagle Time Ent @ Anchiyie",
+"Augustina 	Augustina 1990 Ventures",
+"Prince Henry Essien Henry - Paa Ventures",
+"Rita -Papa Mo wo hon",
+"Priscilla -Joehard Ventures", 
+"Alma -Alma Ventures", 
+"Jechoriahs -Jechoriahs success ent",
+"Samuel Ansah -Ansah Paradise",
+"Leticia Kwofie -Favour From God Ventures", 
+"Prince Henry Essien -Henry-Paa Ventures",
+"Paulina Amissah -Polyamass Ventures", 
+"Fredrick Oheneba Quaisie -Fredo Unique Business Center",
+"Joshjenny ventures -joshjenny ventures", 
+"Benjamin Awni Anaba -Benjamin Awuni Anaba",
+"Papa Yamson -Paapa Yamson",
+ "Alley Ventures -Alley Ventures",
+"Henry-paa Ventures-Henry-paa",
+"Joshjenny ventures -Joshjenny", 
+"C6C VENTURES -C6C VENTURES",
+"Allah is the greatest -Allah is the greatest",
+"Benjamin Awuni Anaba -Benjamin Awuni Anaba",
+"Ritmens 555 enterprise -Rita Mensah",
+"Star Horse -Star Horse",
+"Janet  Abbey -Janet Abbey",
+"Papa ma ho Enterprise -Paa ma ho Enterprise",
+"Kate De Queen Ventures -Kate Ayertey",
+"Amazing Dankwa Ventures -Emmanuel Dankwa",
+"Andrew Agyeimin Boateng -Andrew Agyeimin Boateng",
+"Sherif Dauda -Sherif Duada",
+"Belinda Kwofie -Foslin Investment",
+ "Eric  Business Centre -Eric Business Centre",
+"Time and Chane	Time and Chance",
+"Lazarus Quayson -Lazarus Quayson Ventures",
+"John Kofie Tetteh -John Kofi Tetteh",
+"James cobbinah 	Jamcobb Enterprise", 
+"Ezekiel Arhensah	Ezekiel Arhensah Enterprise",
+"Maxwell Bagna Avatim	Maxmat Ventures",
+"Ophelia  Ntriakwa	Ophelia Ntirakwa",
+"Constance Ebbi	Lily Enterprise",
+"Appiah Kwesi	Appiah Kwesi",
+"Ewurade Naye 	Ewurade Naye",
+"Vicent Zoeyeuf	Zoeyeuful Ventures",
+"Time and Chance 	HMT Time and Time",
+"Obed Tuffour 	Mackwini Ventures",
+"Defended by Jehovah 	Defended by Jehovah",
+"Obolo facitiy	Obolo Facitiy",
+"WI Johnboy 58 Enterprise 	John wumboprche",
+"Only Jehovah bless 	Michael  Nyarkoh",
+"Philip telecom3	Philip Egyrenyi",
+"Emefa POGAS 	faustina Emefa Dam",
+"Rock Two Ventures2	Rockson Charles kojo", 
+"Grace Asare	Am Done Business Links",
+"Desmond Quarm Ventures 	Desmond Quarm Ventures",
+"Yalley Ventures 	Yalley Ventures",
+"Shopify Ventures 	Shopify Ventures"
+    ];
+
+    function updateAgentDisplay() {
+      document.getElementById("totalCount").textContent = `Total Agents: ${agents.length}`;
+      const list = document.getElementById("agentList");
+      list.innerHTML = "";
+      agents.forEach((agent, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${index + 1}. ${agent}`;
+        list.appendChild(li);
+      });
+    }
+
+    function toggleAgents() {
+      const section = document.getElementById("agentSection");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+    }
+
     function appendTimestamp() {
-        const now = new Date();
-        const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-        document.getElementById('TIMESTAMP').value = timestamp;
+      const now = new Date();
+      const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+      document.getElementById('TIMESTAMP').value = timestamp;
     }
 
     document.getElementById('agentForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent form from submitting normally
+      e.preventDefault();
+      appendTimestamp();
 
-        // Call appendTimestamp to update the hidden field
-        appendTimestamp();
+      const form = e.target;
+      const agentName = document.getElementById('agentName').value.trim();
+      const businessName = document.getElementById('businessName').value.trim();
 
-        const form = e.target;
-        fetch(form.action, {
-            method: form.method,
-            body: new FormData(form)
-        })
-        .then(response => {
-            if (response.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Submitted!',
-                    text: 'Your data has been submitted successfully.',
-                    confirmButtonText: 'Submit New Request'
-                }).then(() => {
-                    form.reset();
-                });
-            } else {
-                throw new Error('Submission failed');
-            }
-        })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Something went wrong. Please try again.',
-            });
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form)
+      })
+      .then(response => {
+        if (response.ok) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Submitted!',
+            text: 'Your data has been submitted successfully.',
+            confirmButtonText: 'Submit New Request'
+          }).then(() => {
+            // Add to agents list and save
+            agents.push(`${agentName} - ${businessName}`);
+            localStorage.setItem("agents", JSON.stringify(agents));
+            updateAgentDisplay();
+            form.reset();
+          });
+        } else {
+          throw new Error('Submission failed');
+        }
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong. Please try again.',
         });
+      });
     });
-    </script>
+
+    // Initial load
+    updateAgentDisplay();
+  </script>
 </body>
 </html>

@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New-link</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background-image: url('MTN-1.png');
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Arial', sans-serif;
-        }
-        .form-container {
-            background: rgba(0, 1, 10, 0.473);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(43, 3, 218, 0.767);
-            width: 100%;
-            max-width: 500px;
-        }
-        .form-container h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
-            color: #fcfafa;
-        }
-        .form-container label {
-            color: #fcfafa;
-        }
-        .logo {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 80px;
-            height: auto;
-        }
-        .toggle-link {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anaji New Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      background-image: url('MTN-1.png');
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 2rem;
+      font-family: 'Arial', sans-serif;
+    }
+    .form-container {
+      background: rgba(0, 1, 10, 0.6);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(43, 3, 218, 0.767);
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .form-container h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+      color: #fcfafa;
+    }
+    .form-container label {
+      color: #fcfafa;
+    }
+    .logo {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 80px;
+      height: auto;
+    }
+    .toggle-link {
       margin-top: 15px;
       font-size: 14px;
       color: #fc0b03;
@@ -52,82 +55,179 @@
     .toggle-link a:hover {
       text-decoration: underline;
     }
-    </style>
+    .list-container {
+      background: #ffffffdc;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      width: 100%;
+      max-width: 600px;
+    }
+    .total {
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    #agentList {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    #agentList li {
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <img src="emba.jpg" alt="Emba Logo" class="logo">
-        <h1>New Agent Reg.</h1>
-        <form id="agentForm" action="https://api.sheetmonkey.io/form/3Z9cWbbWx73ucYjQM1HsAQ" method="POST">
-            <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="ESIAMA">
-            <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
-            <div class="mb-3">
-                <label for="agentName" class="form-label">Agent Name</label>
-                <input type="text" id="agentName" name="Agent Name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="businessName" class="form-label">Business Name</label>
-                <input type="text" id="businessName" name="Business Name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="agentNumber" class="form-label">Agent Number</label>
-                <input type="tel" id="agentNumber" name="Agent Number" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="personalNumber" class="form-label">Personal Number</label>
-                <input type="tel" id="personalNumber" name="Personal Number" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" id="location" name="Location" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
-            <div class="toggle-link">
-                <a href="delink.html">Agent want to leave? De-link</a>
-              </div>
-        </form>
+  <div class="form-container">
+    <img src="emba.jpg" alt="Emba Logo" class="logo" />
+    <h1>New Agent Reg.</h1>
+    <form id="agentForm" action="https://api.sheetmonkey.io/form/3Z9cWbbWx73ucYjQM1HsAQ" method="POST">
+      <input type="hidden" name="x-sheetmonkey-insert-worksheet" value="ESIAMA">
+      <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
+
+      <div class="mb-3">
+        <label for="agentName" class="form-label">Agent Name</label>
+        <input type="text" id="agentName" name="Agent Name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="businessName" class="form-label">Business Name</label>
+        <input type="text" id="businessName" name="Business Name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="agentNumber" class="form-label">Agent Number</label>
+        <input type="tel" id="agentNumber" name="Agent Number" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="personalNumber" class="form-label">Personal Number</label>
+        <input type="tel" id="personalNumber" name="Personal Number" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" id="location" name="Location" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Submit</button>
+      <div class="toggle-link">
+        <a href="delink.html">Agent want to leave? De-link</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="list-container">
+    <h1>Agent Registered</h1>
+    <button class="btn btn-secondary mb-3" onclick="toggleAgents()">View Agents</button>
+    <div id="agentSection" style="display: none;">
+      <div class="total" id="totalCount">Total Agents: 0</div>
+      <ul id="agentList"></ul>
     </div>
-    
-    <script>
+  </div>
+
+  <script>
+    let agents = JSON.parse(localStorage.getItem("agents")) || [
+      "Christopher kaku- TSA VENTURES",
+"JOHN ASHI	Jesus is Lord  is vets",
+"Emmanuel Blay	Emmanuel Blay",
+"Francis Anaman	Rev Francis ent",
+"FRANCIS KWASUBLAY	ADOM ENTERPRISE", 
+"JACK BLAY	JACK BLAY ENTERPRISE",
+"FRANCIS JACKSON KAKU 	JOE ONE",
+"JOHN EFFERH- Big Stephen mobile money cente",
+"STANISLAS ASSIDOE.OFORI -OFORI TELECOM",
+"Patrick anglow	Anslow -phone anglow Patrick",
+"EBENEZER 	Hello Vivian",
+"TABI DORIS OWUSUWAA DORIS OWUSUWAA BUSINESS", 
+"Patrick  Nyanzu -X MAN Ent",
+"PATRICIA  NREDAH -MAMA PAT",
+"JOSEPH KWAME 	NEVER RUSH ENTERPRISE",
+"Mwin Nadie Ent	Jerry hudi",
+"LYDIA ANLIMAH 	Achieese VENTURES",
+"BARNABAS HACKMAN-EQUILIBRIUM PRICE ENTERPRISE", 
+"LYDIA AYAABAH 	Grace over Disgrace trading ent",
+"ROSEMARY EWEROKO-Mr Osei Click ventures",
+"JOHN BEYELAH -Almighty Phones",
+"KAYAH VICTORIA XLNC MULTIMEDIA 1",
+"FRANCIS KWOFIE FRANCIS KWOFIE",
+"Mama Lee -Lydia Alladan",
+"Divine Favour of God-Stephen Cudjoe",
+"JOE MAY ENTERPRISE JOSEPH ALLAH AMODZIN",
+"YAKUBU ABDULAI ELSOM VENTURES",
+"SAMUEL NYANKO 	THOUGHTFUL CHILD", 
+"FUSEINI NUHU -GOD IS GOOD VENTURES", 
+"ISRAEL CHRIS KAKUO DERBY-DE JONES COMPANY LTD",
+"DANIEL QUARM ARTHUR -CLASSIC ENTERPRISE",
+"ABRAHAM BAIDOO	CHRISTLOVE JANITORIA",
+"BRIDGET AGYEMANG BRIDGET AGYEMANG",
+"LAWRENCE KAKU AGYILE-LAWKAK VENTURES", 
+"19 ENTERPRISE	FRANCISCA",
+"PRECIOUS KWASI Western South momo agent 73",
+"ELIZABETH COBBINAH -LIZZY'S GREAT ENTERPRISE",
+"QILVE VENTURES	Douglas Arize",
+"GRACE CUDJOE -GREAT SAMDAVE ENTERPRISE",
+"CHRISTOPHER ANNOR MIEZAH	STAGNATION ENTERPRISE",
+"ISAAC SACKEY-RABBAT VENTURES",
+"LITICIA.ARIZI	DE TECH ELECTRONIC",
+"CHARLES BAAH	HOLY AND PHOTO AND BUSINESS CENTER",	
+];
+    function updateAgentDisplay() {
+      document.getElementById("totalCount").textContent = `Total Agents: ${agents.length}`;
+      const list = document.getElementById("agentList");
+      list.innerHTML = "";
+      agents.forEach((agent, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${index + 1}. ${agent}`;
+        list.appendChild(li);
+      });
+    }
+
+    function toggleAgents() {
+      const section = document.getElementById("agentSection");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+    }
+
     function appendTimestamp() {
-        const now = new Date();
-        const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-        document.getElementById('TIMESTAMP').value = timestamp;
+      const now = new Date();
+      const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+      document.getElementById('TIMESTAMP').value = timestamp;
     }
 
     document.getElementById('agentForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent form from submitting normally
+      e.preventDefault();
+      appendTimestamp();
 
-        // Call appendTimestamp to update the hidden field
-        appendTimestamp();
+      const form = e.target;
+      const agentName = document.getElementById('agentName').value.trim();
+      const businessName = document.getElementById('businessName').value.trim();
 
-        const form = e.target;
-        fetch(form.action, {
-            method: form.method,
-            body: new FormData(form)
-        })
-        .then(response => {
-            if (response.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Submitted!',
-                    text: 'Your data has been submitted successfully.',
-                    confirmButtonText: 'Submit New Request'
-                }).then(() => {
-                    form.reset();
-                });
-            } else {
-                throw new Error('Submission failed');
-            }
-        })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Something went wrong. Please try again.',
-            });
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form)
+      })
+      .then(response => {
+        if (response.ok) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Submitted!',
+            text: 'Your data has been submitted successfully.',
+            confirmButtonText: 'Submit New Request'
+          }).then(() => {
+            // Add to agents list and save
+            agents.push(`${agentName} - ${businessName}`);
+            localStorage.setItem("agents", JSON.stringify(agents));
+            updateAgentDisplay();
+            form.reset();
+          });
+        } else {
+          throw new Error('Submission failed');
+        }
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong. Please try again.',
         });
+      });
     });
-    </script>
+
+    // Initial load
+    updateAgentDisplay();
+  </script>
 </body>
 </html>
