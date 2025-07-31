@@ -12,7 +12,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: url('MTN-1.png') no-repeat center center/cover;
+        background: url('/Images/MTN-1.png') no-repeat center center/cover;
         animation: moveBackground 15s infinite linear;
         color: #ffffff;
         overflow: hidden;
