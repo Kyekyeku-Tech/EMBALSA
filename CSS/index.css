@@ -1,0 +1,101 @@
+@keyframes moveBackground {
+        0% { background-position: 0 0; }
+        50% { background-position: 100% 100%; }
+        100% { background-position: 0 0; }
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: url('MTN-1.png') no-repeat center center/cover;
+        animation: moveBackground 15s infinite linear;
+        color: #ffffff;
+        overflow: hidden;
+    }
+
+    #quarter-section {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 30px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    #quarter-section:hover {
+        transform: translateY(-10px);
+    }
+
+    #greeting {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #061efcf1;
+    }
+
+    #quarter {
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+
+    #month {
+        font-size: 1.5rem;
+        color: #b3e5fc;
+    }
+
+    #notification {
+        cursor: pointer;
+        background: #ffd700;
+        color: #000;
+        border: none;
+        padding: 15px 30px;
+        font-size: 1rem;
+        border-radius: 30px;
+        margin-top: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.548);
+        transition: all 0.3s ease;
+    }
+
+    #notification:hover {
+        background: #fff;
+        color: #000;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .button-container a {
+        text-decoration: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background: #0d8502;
+        border-radius: 30px;
+        transition: background 0.3s;
+        box-shadow: 0 5px 15px rgba(15, 1, 1, 0.815);
+    }
+
+    .button-container a:hover {
+        background: #110006;
+    }
+
+    #logout-button {
+        background: #d32f2f;
+    }
+
+    #logout-button:hover {
+        background: #00000a;
+    }
+    #logout-button a {
+        color: #fff;
+    }

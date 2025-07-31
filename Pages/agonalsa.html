@@ -11,138 +11,7 @@
   <!-- SheetJS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-  <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-image: url('lsa.png');
-            color: #f8f3f3;
-        }
-        .container {
-            width: 100%;
-            max-width: 450px;
-            background: rgba(0, 1, 7, 0.733);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            position: relative;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .logo {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 60px;
-            height: auto;
-        }
-        h3 {
-            color: #2575fc;
-            margin-bottom: 20px;
-        }
-        form {
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #f8f5f5;
-            text-align: left;
-        }
-        input, select {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            box-shadow: 0 1px 2px rgba(39, 2, 250, 0.8);
-            box-sizing: border-box;
-        }
-        input:focus, select:focus {
-            outline: none;
-            box-shadow: 0 0 8px rgb(26, 2, 240);
-        }
-        button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 10px;
-            background: linear-gradient(90deg, #007bff, #004080);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background: linear-gradient(90deg, #0056b3, #002a50);
-        }
-        .dashboard {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(39, 2, 250, 0.08);
-            border: 1px solid #2575fc;
-            border-radius: 10px;
-        }
-        .dashboard h4 {
-            margin: 0 0 10px;
-            color: #2575fc;
-        }
-        .totals {
-            margin: 5px 0;
-            font-size: 16px;
-            color: #f5f1f1;
-            font-weight: bold;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .dropdown {
-    position: absolute;
-    width: 100%;
-    max-width: 420px; /* Match input field width */
-    background: white;
-    color: black;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(2, 6, 253, 0.993);
-    display: none;
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
-    font-size: 14px;
-}
-
-.dropdown div {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #f00707;
-}
-
-.dropdown div:last-child {
-    border-bottom: none;
-}
-
-.dropdown div:hover {
-    background: #2600ff;
-    color: white;
-}
-
-    </style>
+    <link rel="stylesheet" href="/CSS/lsa.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -157,7 +26,7 @@
             <p class="totals">Total Fees: GHC <span id="totalFees">0</span></p>
             <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
         </div>
-        <img src="emba.jpg" alt="Emba Logo" class="logo">
+        <img src="/Images/emba.jpg" alt="Emba Logo" class="logo">
         <form id="expensesForm" action="https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec" method="post" onsubmit="return handleFormSubmit(event)">
   <input type="hidden" name="sheetName" value="AGONA">
             <input type="hidden" id="TIMESTAMP" name="TIMESTAMP">
@@ -165,9 +34,9 @@
             <label for="TYPE">Who Are You ?</label>
             <select id="DSRName" name="DSRName" required>
                 <option value="">Select Your Name here.</option>
-                <option value="ELVIS">ELVIS</option>
-                <option value="GEORGE">GEORGE</option>
-                <option value="BRANCH">BRANCH</option>
+                <option value="ELVIS">Elvis</option>
+                <option value="GEORGE">George</option>
+                <option value="BRANCH">Branch</option>
             </select>
 
             <label for="AgentName">Agent Name</label>
@@ -176,15 +45,15 @@
 
             <label for="TYPE">Transaction Type</label>
             <select id="TYPE" name="TYPE" required>
-                <option value="E-CASH">E-CASH</option>
-                <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
-                <option value="Others">Others</option>
+                <option value="">Select Type</option>
+                <option value="E-CASH">E-cash</option>
+                <option value="PHYSICAL-CASH">Physical Cash</option>
             </select>
 
             <label for="AMOUNT">Amount</label>
             <input type="number" id="AMOUNT" name="AMOUNT" oninput="calculateFees()" required>
 
-            <label for="FEES">FEES</label>
+            <label for="FEES">Fees</label>
             <input type="number" id="FEES" name="FEES" readonly>
 
             <button type="submit">Submit</button>
@@ -195,7 +64,7 @@
 
     <label for="sheetName">Select Sheet</label>
     <select id="sheetName">
-      <option value="AGONA">AGONA</option>
+      <option value="AGONA">Agona</option>
       <!-- More sheets can be added here -->
     </select>
 

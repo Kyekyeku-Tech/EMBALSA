@@ -11,132 +11,8 @@
   <!-- SheetJS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-  <style>
-    /* ...same styles from your original (unchanged)... */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-image: url('lsa.png');
-      color: #f8f3f3;
-    }
-    .container {
-      width: 100%;
-      max-width: 450px;
-      background: rgba(0, 1, 7, 0.733);
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      text-align: center;
-      position: relative;
-      animation: fadeIn 1s ease-in-out;
-    }
-    .logo {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 60px;
-      height: auto;
-    }
-    h3 {
-      color: #2776fd;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #f8f5f5;
-    }
-    input, select {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      box-shadow: 0 1px 2px rgba(39, 2, 250, 0.8);
-      box-sizing: border-box;
-    }
-    input:focus, select:focus {
-      outline: none;
-      box-shadow: 0 0 8px rgb(26, 2, 240);
-    }
-    button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 10px;
-      background: linear-gradient(90deg, #007bff, #004080);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background: linear-gradient(90deg, #9bf12bde, #ecf005);
-      color: black;
-    }
-    .dashboard {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(39, 2, 250, 0.08);
-      border: 1px solid #2575fc;
-      border-radius: 10px;
-    }
-    .dashboard h4 {
-      margin: 0 0 10px;
-      color: #2575fc;
-    }
-    .totals {
-      margin: 5px 0;
-      font-size: 16px;
-      color: #f5f1f1;
-      font-weight: bold;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .dropdown {
-      position: absolute;
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      color: black;
-      border-radius: 5px;
-      box-shadow: 0 2px 8px rgba(2, 6, 253, 0.993);
-      display: none;
-      z-index: 1000;
-      max-height: 200px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
-    .dropdown div {
-      padding: 10px;
-      cursor: pointer;
-      border-bottom: 1px solid #f00707;
-    }
-    .dropdown div:last-child {
-      border-bottom: none;
-    }
-    .dropdown div:hover {
-      background: #2600ff;
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="/CSS/lsa.css">
+  <link rel="icon" href="/Images/emba.jpg" type="image/x-icon">
 </head>
 <body>
   <!-- Submission Form Container -->
@@ -152,10 +28,10 @@
       <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
     </div>
 
-    <img src="emba.jpg" alt="Emba Logo" class="logo">
+    <img src="/Images/emba.jpg" alt="Emba Logo" class="logo">
 
     <form id="expensesForm" action="https://script.google.com/macros/s/AKfycbwzeRS94NsMwmhEhbT1kb786TL68_ahT0r6R1n0wMbUhr_4GQDFaYArz1po9K4rCypz_g/exec" method="post" onsubmit="return handleFormSubmit(event)">
-      <input type="hidden" name="sheetName" value="BAKAKYIR">
+      <input type="hidden" name="sheetName" value="ELUBO">
       <input type="hidden" name="TIMESTAMP" id="TIMESTAMP">
 
       <label>Agent Name</label>
@@ -164,8 +40,9 @@
 
       <label>Type</label>
       <select name="TYPE" required>
-        <option value="E-CASH">E-CASH</option>
-        <option value="PHYSICAL-CASH">PHYSICAL CASH</option>
+        <option value="">Select Type</option>
+        <option value="E-CASH">E-Cash</option>
+        <option value="PHYSICAL-CASH">Physical Cash</option>
       </select>
 
       <label>Amount</label>
@@ -184,7 +61,7 @@
 
     <label for="sheetName">Select Sheet</label>
     <select id="sheetName">
-      <option value="BAKAKYIR">BAKAKYIR</option>
+      <option value="ELUBO">ELUBO</option>
       <!-- More sheets can be added here -->
     </select>
 
@@ -235,46 +112,26 @@
     }
   }
      const agents = [
-"Sally Smith-Ansah", 
-"Mary chea Enterprises", 
-"Veesa Enterprise", 
-"Boss Lady Glamour", 
-"Stanforn Ventures",
-"Zizu Ventures",
-"Uhan Enterprise", 
-"Olu Winters Enterprise", 
-"Wunfara Enterprise", 
-"I told you Ventures Emelia Nuamah",
-"Esmeral Linda I told you ventures",
-"Wilcho Garment", 
-"Benedicta Nyanko Enterprise", 
-"New Guy Ventures",
-"Masiratu Debrah Ventures", 
-"Kingsaford Enterprise", 
-"Ama backstone Ventures",
-"Caplife Limited",
-"Frederick Nuba -Sammet Ventures",
-"Abdullah Suleman-Marshalla enterprise",
-"Emmanuel Hammond -EH PLUS VENTURES",
-"Reuben Nchor- Reuben Nchor Ventures",
-"Agnes Arthur -Hobby lobby",
-"Patricia Whadjah-CV Dot Com",
-"Mercy Nyuwan -Perez Ventures", 
-"Josephine Tachie Mensah -Ellen White", 
-"Pearl 	Shalom Unit", 
-"Fizza Quayson -Fremas venture’s", 
-"Blessings Adusei -Complet Empire Ventures", 
-"Belinda Mensbre Ventures",
-"Edith Koomson 	Vivian Awuku Ventures", 
-"Fati	Abdula Fati 1997 Enterprise", 
-"Priscilla Addo	Pricby ventures",
-"Rita Nunu -Preference Ventures",
-"Patricia Annamah -Patricia Annamah Ventures",
-"By His Grace Ventures",
-"GLANENT ENTERPRISE",
-"SACRED TRINITY VENTURES",
-"JISWEPT ENTERPRISE",
-"LEEN’S DELISH ENTERPRISE"
+"Gabiko Ventures",
+"Pris Ab Ventures",
+"Be-Gentle Enterprise",
+"Queenzy Enterprise",
+"Dzefe Sam Enterprise",
+"M-Silas Ventures",
+"Dans Laundry and dry cleaning Ventures",
+"Rappart Connerx Enterprise", 
+"Albert Eduku -DC Noble Ventures",
+"Nanatel LTD -Nanatel LTD",
+"Bencomm 44 Ventures",
+"Adu Christiana Ventures",
+"Peter Edue -Peter Edue",
+"Sanaki Enterprise",
+"Jane Tsey Ventures",
+"Dwumarhlos Enterprise",
+"Sanaki Enterprise 	Sanaki Enterprise",
+"Jane Tsey Ventures	Jane Tsey Ventures",
+"Sir Apolo Enterprise",
+"Bijay Ventures",
 ];
 
         const agentInput = document.getElementById("AgentName");
@@ -363,7 +220,7 @@
         }
     
         function sendSMS(amount, fees, totalFees) {
-            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233545454000&msg=Bakakyire has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
+            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233557717037&msg=Elubo Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
             return fetch(apiUrl)
                 .then(response => response.text())
                 .then(data => console.log("SMS sent successfully", data))

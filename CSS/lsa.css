@@ -1,0 +1,129 @@
+ body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('/Images/lsa.png');
+            color: #f8f3f3;
+        }
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(0, 1, 7, 0.733);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .logo {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 60px;
+            height: auto;
+        }
+        h3 {
+            color: #2575fc;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #f8f5f5;
+            text-align: left;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: #2600ff;
+            border-radius: 8px;
+            font-size: 16px;
+            box-shadow: 0 1px 2px rgba(39, 2, 250, 0.8);
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgb(26, 2, 240);
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #007bff, #004080);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #0056b3, #002a50);
+        }
+        .dashboard {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(39, 2, 250, 0.08);
+            border: 1px solid #2575fc;
+            border-radius: 10px;
+        }
+        .dashboard h4 {
+            margin: 0 0 10px;
+            color: #2575fc;
+        }
+        .totals {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #f5f1f1;
+            font-weight: bold;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .dropdown {
+    position: absolute;
+    width: 100%;
+    max-width: 420px; /* Match input field width */
+    background: white;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(2, 6, 253, 0.993);
+    display: none;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.dropdown div {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f00707;
+}
+
+.dropdown div:last-child {
+    border-bottom: none;
+}
+
+.dropdown div:hover {
+    background: #2600ff;
+    color: white;
+}
