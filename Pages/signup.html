@@ -5,49 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up</title>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC0UoAmAQ7-QGaISEyCI897eVqUXwE01A8",
-      authDomain: "second-impact-417012.firebaseapp.com",
-      projectId: "second-impact-417012",
-      storageBucket: "second-impact-417012.appspot.com",
-      messagingSenderId: "647158919272",
-      appId: "1:647158919272:web:5760dee04384d016220bdd",
-      measurementId: "G-N7KR05M4HR"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0UoAmAQ7-QGaISEyCI897eVqUXwE01A8",
+    authDomain: "second-impact-417012.firebaseapp.com",
+    projectId: "second-impact-417012",
+    storageBucket: "second-impact-417012.appspot.com",
+    messagingSenderId: "647158919272",
+    appId: "1:647158919272:web:5760dee04384d016220bdd",
+    measurementId: "G-N7KR05M4HR"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    document.getElementById('signup-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-      const branch = document.getElementById('signup-branch').value;
+  document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    const branch = document.getElementById('signup-branch').value;
 
-      if (!branch || branch === "Your Branch") {
-        alert("Please select a valid branch.");
-        return;
-      }
+    if (!branch || branch === "Your Branch") {
+      alert("Please select a valid branch.");
+      return;
+    }
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        alert('User registered successfully!');
-        
-        // Save branch to localStorage in a normalized format (lowercase, no spaces)
-        const formattedBranch = branch.replace(/\s+/g, '').toLowerCase();
-        localStorage.setItem('branch', formattedBranch);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-        // Redirect to the branch-specific dashboard
-        const branchPage = formattedBranch + '.html';
-        window.location.href = branchPage;
-      } catch (error) {
-        alert('Error: ' + error.message);
-      }
-    });
-  </script>
+      // Save user data in Firestore under a "users" collection
+      await setDoc(doc(db, "users", user.uid), {
+        email: email,
+        branch: branch,
+        createdAt: new Date()
+      });
+
+      alert('User registered successfully!');
+
+      // Redirect to branch-specific dashboard
+      const formattedBranch = branch.replace(/\s+/g, '').toLowerCase();
+      const branchPage = formattedBranch + '.html';
+      window.location.href = branchPage;
+
+    } catch (error) {
+      alert('Error: ' + error.message);
+    }
+  });
+</script>
+
  <link rel="stylesheet" href="/CSS/signup.css">
     <link rel="icon" href="/Images/emba.jpg" type="image/x-icon">
 </head>
