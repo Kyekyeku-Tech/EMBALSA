@@ -20,11 +20,11 @@
 
     #quarter-section {
         text-align: center;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(8, 5, 5, 0.781);
         border-radius: 15px;
         padding: 30px;
         backdrop-filter: blur(10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 15px rgb(27, 2, 250);
         transition: transform 0.3s ease-in-out;
     }
 
@@ -36,7 +36,7 @@
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 10px;
-        color: #061efcf1;
+        color: #061ffc;
     }
 
     #quarter {
@@ -46,7 +46,7 @@
 
     #month {
         font-size: 1.5rem;
-        color: #b3e5fc;
+        color: #05fc05;
     }
 
     #notification {
@@ -64,7 +64,7 @@
 
     #notification:hover {
         background: #fff;
-        color: #000;
+        color: #f70202;
     }
 
     .button-container {
@@ -78,11 +78,11 @@
         text-decoration: none;
         padding: 10px 20px;
         font-size: 1rem;
-        color: #fff;
-        background: #0d8502;
+        color: rgb(253, 252, 252);
+        background: #3702f5;
         border-radius: 30px;
         transition: background 0.3s;
-        box-shadow: 0 5px 15px rgba(15, 1, 1, 0.815);
+        box-shadow: 0 5px 1px rgba(225, 250, 2, 0.815);
     }
 
     .button-container a:hover {
