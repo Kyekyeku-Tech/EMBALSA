@@ -5,49 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Greeting Page</title>
     <link rel="stylesheet" href="CSS/index.css">
-  <script>
-    function getGreeting() {
-        const hours = new Date().getHours();
-        if (hours < 12) return "Good morning";
-        if (hours < 18) return "Good afternoon";
-        return "Good evening";
-    }
-
-    function getQuarterAndMonth() {
-        const month = new Date().getMonth();
-        const quarters = ["QUARTER ONE", "QUARTER TWO", "QUARTER THREE", "QUARTER FOUR"];
-        const quarter = quarters[Math.floor(month / 3)];
-        const monthNames = [
-            "January", "February", "March", "April", "May", "June", 
-            "July", "August", "September", "October", "November", "December"
-        ];
-        return { quarter, month: monthNames[month] };
-    }
-
-    function displayGreeting() {
-        const greeting = getGreeting();
-        const { quarter, month } = getQuarterAndMonth();
-
-        document.getElementById("greeting").textContent = `${greeting}, Emba Manager!`;
-        document.getElementById("quarter").textContent = `WE'RE IN ${quarter}`;
-        document.getElementById("month").textContent = month;
-
-        const notificationButton = document.getElementById("notification");
-        notificationButton.addEventListener("click", () => {
-            alert("Hello! Emba Manager, Kindly Report Today Before You Close. Thank You.");
-            const headOfficeMessage = document.createElement("div");
-            headOfficeMessage.innerHTML = `    
-            `;
-            document.body.appendChild(headOfficeMessage);
-        });
-    }
-
-    window.onload = displayGreeting;
+  <script src="/SCRIPT/main.js" type="module"></script>
   </script>
 </head>
 <body>
     <div id="quarter-section">
+        
+            
         <h1 id="greeting"></h1>
+        <marquee behavior="scroll" direction="left" scrollamount="5">
+            <p>Welcome to the PAYG-LSA Portal! Please Kindly sign in to continue.</p>
+        </marquee>
         <p id="quarter"></p>
         <p id="month"></p>
         <button id="notification">Today's Notification</button>

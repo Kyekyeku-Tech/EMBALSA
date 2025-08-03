@@ -517,16 +517,37 @@
             }, 60 * 1000);
         }
 
-        function sendSMS(amount, fees, totalFees) {
-    const dsrName = document.getElementById("DSRName").value || "Unknown DSR";
-    const message = `${dsrName} Agona Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}`;
-    const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233543569323&msg=${encodeURIComponent(message)}&sender_id=PAYG`;
-    
-    return fetch(apiUrl)
-        .then(response => response.text())
-        .then(data => console.log("SMS sent successfully", data))
-        .catch(error => console.error("Error sending SMS", error));
+       function sendSMS(amount, fees, totalFees) {
+    const dsrInput = document.getElementById("DSRName");
+    const dsrName = dsrInput ? dsrInput.value.trim() : "Unknown DSR";
+
+    const message = `${dsrName} Agona has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is GHS${totalFees}`;
+
+    const payload = {
+        sender: "PAYG",
+        message: message,
+        recipient: ["+233543569323"],  // Replace with correct number(s)
+        is_schedule: false
+    };
+
+    return fetch("https://api.mnotify.com/api/sms/quick?key=ub8mxDfZsERBob8Vp1tJLXtyI", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        console.log("SMS response:", data);
+        if (data.status !== "success") {
+            throw new Error(`Mnotify error: ${JSON.stringify(data)}`);
+        }
+    })
+    .catch(error => console.error("Error sending SMS:", error));
 }
+
 
 
         function toggleStatementForm() {

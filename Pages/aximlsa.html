@@ -242,12 +242,27 @@
         }
     
         function sendSMS(amount, fees, totalFees) {
-            const apiUrl = `https://apps.mnotify.net/smsapi?key=zwNY4rjo1XWnMXn8Om7Q8gk1U&to=+233550848284&msg=AXIM Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is ${totalFees}&sender_id=PAYG`;
-            return fetch(apiUrl)
-                .then(response => response.text())
-                .then(data => console.log("SMS sent successfully", data))
-                .catch(error => console.error("Error sending SMS", error));
-        }
+    const apiKey = "ub8mxDfZsERBob8Vp1tJLXtyI";
+    const senderId = "PAYG";
+    const recipient = "+233550848284"; // You can make this dynamic
+    const message = `Axim Branch has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is GHS${totalFees}`;
+
+    const payload = {
+        sender: senderId,
+        message: message,
+        recipient: [recipient],
+        is_schedule: false
+    };
+
+    return fetch(`https://api.mnotify.com/api/sms/quick?key=${apiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => console.log("SMS sent successfully:", data))
+    .catch(error => console.error("Error sending SMS:", error));
+}
 
         function handleFormSubmit(event) {
             event.preventDefault();

@@ -47,18 +47,20 @@
     #month {
         font-size: 1.5rem;
         color: #05fc05;
+        font-style: italic;
     }
 
     #notification {
         cursor: pointer;
         background: #ffd700;
         color: #000;
+        font-style: italic;
         border: none;
         padding: 15px 30px;
         font-size: 1rem;
         border-radius: 30px;
         margin-top: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.548);
+        box-shadow: 0 5px 5px rgba(26, 2, 247, 0.973);
         transition: all 0.3s ease;
     }
 
@@ -82,7 +84,7 @@
         background: #3702f5;
         border-radius: 30px;
         transition: background 0.3s;
-        box-shadow: 0 5px 1px rgba(225, 250, 2, 0.815);
+        box-shadow: 0 5px 1px rgba(250, 246, 2, 0.979);
     }
 
     .button-container a:hover {
