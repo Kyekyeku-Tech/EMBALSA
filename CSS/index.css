@@ -1,103 +1,133 @@
-@keyframes moveBackground {
-        0% { background-position: 0 0; }
-        50% { background-position: 100% 100%; }
-        100% { background-position: 0 0; }
-    }
+/* FULL SCREEN BACKGROUND */
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top, #0a0a0a, #000000 70%);
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: url('/Images/MTN-1.png') no-repeat center center/cover;
-        animation: moveBackground 15s infinite linear;
-        color: #ffffff;
-        overflow: hidden;
-    }
+/* FLOATING GRADIENT BALLS */
+body::before, body::after {
+  content: "";
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  background: linear-gradient(45deg, #ffd600, #ff8800);
+  filter: blur(150px);
+  opacity: 0.35;
+  border-radius: 50%;
+  animation: float 12s infinite alternate ease-in-out;
+}
 
-    #quarter-section {
-        text-align: center;
-        background: rgba(8, 5, 5, 0.781);
-        border-radius: 15px;
-        padding: 30px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 15px rgb(27, 2, 250);
-        transition: transform 0.3s ease-in-out;
-    }
+body::after {
+  background: linear-gradient(45deg, #0066ff, #5500ff);
+  left: 60%;
+  top: 10%;
+  animation-duration: 15s;
+}
 
-    #quarter-section:hover {
-        transform: translateY(-10px);
-    }
+/* FLOAT ANIMATION */
+@keyframes float {
+  from { transform: translateY(0px) rotate(0deg); }
+  to   { transform: translateY(-60px) rotate(20deg); }
+}
 
-    #greeting {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-        color: #061ffc;
-    }
+/* GLASS CARD */
+.glass-card {
+  width: 450px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+  animation: fadeUp 1s ease-out;
+}
 
-    #quarter {
-        font-size: 2rem;
-        margin-bottom: 5px;
-    }
+/* GREETING */
+#greeting {
+  font-size: 2.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffd700;
+}
 
-    #month {
-        font-size: 1.5rem;
-        color: #05fc05;
-        font-style: italic;
-    }
+/* SUBTEXT */
+.tagline {
+  margin-top: 8px;
+  font-size: 1.1rem;
+  color: #dddddd;
+  font-weight: 500;
+  text-transform: uppercase;
+}
 
-    #notification {
-        cursor: pointer;
-        background: #ffd700;
-        color: #000;
-        font-style: italic;
-        border: none;
-        padding: 15px 30px;
-        font-size: 1rem;
-        border-radius: 30px;
-        margin-top: 20px;
-        box-shadow: 0 5px 5px rgba(26, 2, 247, 0.973);
-        transition: all 0.3s ease;
-    }
+.date-text {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 18px;
+}
 
-    #notification:hover {
-        background: #fff;
-        color: #f70202;
-    }
+/* MODERN BUTTON */
+.modern-btn {
+  padding: 12px 18px;
+  background: #ffd700;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  color: black;
+  width: 100%;
+  margin-bottom: 18px;
+  transition: 0.3s;
+}
 
-    .button-container {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
-    }
+.modern-btn:hover {
+  background: #ffea80;
+  transform: translateY(-3px);
+}
 
-    .button-container a {
-        text-decoration: none;
-        padding: 10px 20px;
-        font-size: 1rem;
-        color: rgb(253, 252, 252);
-        background: #3702f5;
-        border-radius: 30px;
-        transition: background 0.3s;
-        box-shadow: 0 5px 1px rgba(250, 246, 2, 0.979);
-    }
+/* SIGN IN / SIGN UP BUTTONS */
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
 
-    .button-container a:hover {
-        background: #110006;
-    }
+.action-btn {
+  padding: 12px 25px;
+  background: #111;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid #333;
+  transition: 0.3s;
+}
 
-    #logout-button {
-        background: #d32f2f;
-    }
+.action-btn:hover {
+  background: #ffd700;
+  color: black;
+  transform: translateY(-3px);
+}
 
-    #logout-button:hover {
-        background: #00000a;
-    }
-    #logout-button a {
-        color: #fff;
-    }
+
+
+/* MARQUEE */
+.marquee-modern {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+/* FADE UP ANIMATION */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px);}
+  to   { opacity: 1; transform: translateY(0);}
+}

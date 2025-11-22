@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECW Submission Dashboard</title>
+
+  <link rel="icon" type="image/png" href="/Images/emba.jpg" />
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- SheetJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-image: url('/Images/background.jpg');
+      color: #f8f3f3;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      background: rgba(0, 1, 7, 0.719);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      position: relative;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .logo {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 60px;
+      height: auto;
+    }
+
+    h3 {
+      color: #fda502;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #f8f7f7;
+      text-align: left;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 2px 1px 2px rgba(250, 101, 2, 0.973);
+      box-sizing: border-box;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgb(240, 97, 2);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      margin-top: 10px;
+      background: linear-gradient(90deg, #ff9900, #080808);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #9bf12bde, #fc7b02);
+      color: black;
+    }
+
+    .dashboard {
+      margin-top: 10px;
+      margin-bottom: 30px;
+      padding: 15px;
+      background: rgba(8, 8, 8, 0.986);
+      border: 1px solid #fda502;
+      border-radius: 10px;
+    }
+
+    .dashboard h4 {
+      margin: 0 0 10px;
+      color: #fca625;
+    }
+
+    .totals {
+      margin: 5px 0;
+      font-size: 16px;
+      color: #02c7bd;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .dropdown {
+      position: absolute;
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      color: black;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(2, 6, 253, 0.993);
+      display: none;
+      z-index: 1000;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .dropdown div {
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #f00707;
+    }
+
+    .dropdown div:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Submission Form Container -->
+  <div class="container" id="submissionContainer">
+
+    <div class="download-buttons">
+      <button onclick="toggleStatementForm()">Get Statement</button>
+    </div>
+
+    <div class="dashboard">
+      <h4>ECW Submission Dashboard</h4>
+      <p class="totals">Total Amount: GHC <span id="totalAmount">0</span></p>
+      <p class="totals">Total Comm: GHC <span id="totalFees">0</span></p>
+      <p class="totals">Unique serve: <span id="totalUnique">0</span></p>
+    </div>
+
+    <img src="/Images/emba.jpg" alt="Emba Logo" class="logo">
+
+    <!-- FORM -->
+    <form id="expensesForm"
+      action="https://script.google.com/macros/s/AKfycbz5XgDdwudx2E7_58F-csa_6ZpnQKEBsKt8PAw3EgFvGsetX6EiKCPouVLCBsVc3M5o/exec"
+      method="post" onsubmit="return handleFormSubmit(event)">
+
+      <input type="hidden" name="sheetName" value="ANAJI-K">
+      <input type="hidden" name="TIMESTAMP" id="TIMESTAMP">
+
+      <label>ECW Number</label>
+      <input type="number" name="Number" id="Number" required>
+      <div class="dropdown" id="agentDropdown"></div>
+
+      <label>Amount</label>
+      <input type="number" name="AMOUNT" id="AMOUNT" required oninput="calculateFees()">
+
+      <label>Commission</label>
+      <input type="number" name="FEES" id="FEES" readonly>
+
+      <button type="submit">Submit</button>
+
+    </form>
+  </div>
+
+  <!-- Statement Container -->
+  <div class="container" id="statementContainer" style="display: none;">
+    <h3 style="color: #fff;">Download Submission Statement</h3>
+
+    <label for="sheetName">Select Sheet</label>
+    <select id="sheetName">
+      <option value="ANAJI-K">ANAJI-K ECW</option>
+    </select>
+
+    <label for="allStartDate">Start Date</label>
+    <input type="date" id="allStartDate" required>
+
+    <label for="allEndDate">End Date</label>
+    <input type="date" id="allEndDate" required>
+
+    <button onclick="downloadAllSubmissions()">Download Statement</button>
+    <button style="margin-top: 10px;" onclick="toggleStatementForm()">Back to Form</button>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+
+    /* DOWNLOAD EXCEL */
+    async function downloadAllSubmissions() {
+      const startDate = document.getElementById("allStartDate").value;
+      const endDate = document.getElementById("allEndDate").value;
+      const sheetName = document.getElementById("sheetName").value;
+
+      if (!startDate || !endDate || !sheetName) {
+        return Swal.fire("Missing Input", "Please fill all fields.", "warning");
+      }
+
+      const url =
+        `https://script.google.com/macros/s/AKfycbzn9Nh-0TFlaM75j9c8NrLzOJ-4IpasBWB2yo-CIBCyRJ_gDmYCswiNxXOjRx6Nlgif/exec?sheetName=${encodeURIComponent(sheetName)}&startDate=${startDate}&endDate=${endDate}`;
+
+      Swal.fire({
+        title: "Fetching...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!data || data.length <= 1) {
+          return Swal.fire("No Records", "No submissions found in this date range.", "info");
+        }
+
+        const sheet = XLSX.utils.aoa_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, sheet, "Submissions");
+
+        const filename = `All_Submissions_${sheetName}_${startDate}_to_${endDate}.xlsx`;
+        XLSX.writeFile(wb, filename);
+
+        Swal.close();
+      } catch (err) {
+        console.error(err);
+        Swal.fire("Error", "Could not fetch data.", "error");
+      }
+    }
+
+
+    /* AGENT DROPDOWN */
+    const agents = ["New Agent"];
+    const agentInput = document.getElementById("Number");
+    const dropdown = document.getElementById("agentDropdown");
+
+    agentInput.addEventListener("input", function () {
+      const inputValue = this.value.toLowerCase();
+      dropdown.innerHTML = "";
+      dropdown.style.display = "none";
+
+      if (inputValue.length >= 2) {
+        const matches = agents.filter(agent => agent.toLowerCase().includes(inputValue));
+
+        if (matches.length > 0) {
+          dropdown.style.display = "block";
+          matches.forEach(match => {
+            const option = document.createElement("div");
+            option.textContent = match;
+            option.addEventListener("click", function () {
+              agentInput.value = match;
+              dropdown.style.display = "none";
+            });
+            dropdown.appendChild(option);
+          });
+        }
+      }
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!agentInput.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = "none";
+      }
+    });
+
+    agentInput.addEventListener("focus", function () {
+      const rect = agentInput.getBoundingClientRect();
+      dropdown.style.top = rect.bottom + "px";
+      dropdown.style.left = rect.left + "px";
+      dropdown.style.width = rect.width + "px";
+    });
+
+
+    /* DASHBOARD */
+    function initializeDashboard() {
+      const todayDate = new Date().toLocaleDateString();
+      const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+
+      if (lastUpdateDate !== todayDate) {
+        resetDashboard();
+      } else {
+        updateDashboard();
+      }
+    }
+
+    function updateDashboard() {
+      document.getElementById("totalAmount").textContent =
+        parseFloat(localStorage.getItem("totalAmount") || 0).toFixed(2);
+
+      document.getElementById("totalFees").textContent =
+        parseFloat(localStorage.getItem("totalFees") || 0).toFixed(2);
+
+      document.getElementById("totalUnique").textContent =
+        JSON.parse(localStorage.getItem("uniqueAgents") || "[]").length;
+    }
+
+    function resetDashboard() {
+      localStorage.setItem("lastUpdateDate", new Date().toLocaleDateString());
+      localStorage.setItem("totalAmount", "0");
+      localStorage.setItem("totalFees", "0");
+      localStorage.setItem("uniqueAgents", JSON.stringify([]));
+      updateDashboard();
+    }
+
+    function calculateFees() {
+      const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+      const fees = amount * 0.015;
+      document.getElementById('FEES').value = fees.toFixed(2);
+    }
+
+    function appendTimestamp() {
+      const now = new Date();
+      const timestamp =
+        `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      document.getElementById('TIMESTAMP').value = timestamp;
+    }
+
+    function scheduleMidnightReset() {
+      setInterval(() => {
+        const todayDate = new Date().toLocaleDateString();
+        const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+
+        if (lastUpdateDate !== todayDate) {
+          resetDashboard();
+          Swal.fire("New Day!", "Dashboard reset for today.", "info");
+        }
+      }, 60 * 1000);
+    }
+
+
+    /* SMS FUNCTION */
+    function sendSMS(amount, fees, totalFees) {
+      const apiKey = "ub8mxDfZsERBob8Vp1tJLXtyI";
+      const senderId = "PAYG";
+      const recipient = "+233543569323";
+
+      const message =
+        `Head Office has served GHS${amount} on PAYG, GHS${fees} commission earned. Total commission in the day is GHS${totalFees}`;
+
+      const payload = {
+        sender: senderId,
+        message: message,
+        recipient: [recipient],
+        is_schedule: false
+      };
+
+      return fetch(`https://api.mnotify.com/api/sms/quick?key=${apiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(response => response.json())
+        .then(data => console.log("SMS sent successfully:", data))
+        .catch(error => console.error("Error sending SMS:", error));
+    }
+
+
+    /* FORM SUBMIT */
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      appendTimestamp();
+
+      const form = document.getElementById("expensesForm");
+      const formData = new FormData(form);
+
+      const agentName = document.getElementById("AgentName")?.value;
+      const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
+      const fees = parseFloat(document.getElementById('FEES').value) || 0;
+      const timestamp = formData.get("TIMESTAMP");
+
+      let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
+
+      transactions.push({
+        timestamp,
+        agentName,
+        type: formData.get("TYPE"),
+        amount,
+        fees
+      });
+
+      localStorage.setItem("transactions", JSON.stringify(transactions));
+
+      const submitButton = form.querySelector("button[type='submit']");
+      submitButton.disabled = true;
+
+      Swal.fire({
+        title: 'Submitting...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      const smsPromise = sendSMS(amount, fees,
+        (parseFloat(localStorage.getItem("totalFees")) || 0) + fees);
+
+      const formPromise = fetch(form.action, {
+        method: form.method,
+        body: formData
+      });
+
+      Promise.all([smsPromise, formPromise])
+        .then(([smsResponse, formResponse]) => {
+          if (formResponse.ok) {
+
+            let totalAmount = parseFloat(localStorage.getItem("totalAmount")) || 0;
+            let totalFees = parseFloat(localStorage.getItem("totalFees")) || 0;
+            let uniqueAgents = JSON.parse(localStorage.getItem("uniqueAgents")) || [];
+
+            if (!uniqueAgents.includes(agentName)) {
+              uniqueAgents.push(agentName);
+              localStorage.setItem("uniqueAgents", JSON.stringify(uniqueAgents));
+            }
+
+            totalAmount += amount;
+            totalFees += fees;
+
+            localStorage.setItem("totalAmount", totalAmount);
+            localStorage.setItem("totalFees", totalFees);
+
+            updateDashboard();
+
+            Swal.fire("Submission Successful!", "Your data has been recorded.", "success");
+            form.reset();
+          } else {
+            Swal.fire("Error!", "Data submission failed.", "error");
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          Swal.fire("Error!", "Something went wrong.", "error");
+        })
+        .finally(() => {
+          submitButton.disabled = false;
+        });
+    }
+
+
+    /* TOGGLE STATEMENT VIEW */
+    function toggleStatementForm() {
+      const submission = document.getElementById("submissionContainer");
+      const statement = document.getElementById("statementContainer");
+      submission.style.display = submission.style.display === "none" ? "block" : "none";
+      statement.style.display = statement.style.display === "none" ? "block" : "none";
+    }
+
+    initializeDashboard();
+    scheduleMidnightReset();
+  </script>
+</body>
+</html>
