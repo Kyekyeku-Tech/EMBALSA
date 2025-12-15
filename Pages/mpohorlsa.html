@@ -189,7 +189,7 @@
     
         function calculateFees() {
             const amount = parseFloat(document.getElementById('AMOUNT').value) || 0;
-            const fees = amount * 0.002; // 0.2% of the amount
+            const fees = amount * 0.001; // 0.2% of the amount
             document.getElementById('FEES').value = fees.toFixed(2);
         }
     
