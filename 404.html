@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>404 | Page Moved</title>
+
+<style>
+:root{
+  --primary:#0ea5e9;
+  --accent:#38bdf8;
+  --bg:#020617;
+  --glass:rgba(2,6,23,.78);
+  --border:rgba(255,255,255,.15);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#020617,#000);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Inter,system-ui;
+  color:#fff;
+  overflow:hidden;
+}
+
+/* Glow */
+.glow-ring{
+  position:absolute;
+  width:560px;
+  height:560px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,var(--primary),transparent);
+  filter:blur(90px);
+  opacity:.3;
+  animation:spin 14s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.card{
+  position:relative;
+  z-index:2;
+  max-width:560px;
+  width:92%;
+  padding:2.8rem;
+  border-radius:28px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  text-align:center;
+  box-shadow:0 40px 120px rgba(0,0,0,.65);
+}
+
+.code{
+  font-size:4rem;
+  font-weight:900;
+  letter-spacing:6px;
+  color:var(--primary);
+  opacity:.9;
+}
+
+.status{
+  display:inline-block;
+  margin:1rem 0;
+  padding:.45rem 1.1rem;
+  border-radius:999px;
+  font-size:.75rem;
+  font-weight:700;
+  background:rgba(14,165,233,.15);
+  color:var(--primary);
+}
+
+h1{
+  font-size:1.9rem;
+  font-weight:800;
+  margin-bottom:.6rem;
+}
+
+p{
+  font-size:1rem;
+  line-height:1.7;
+  opacity:.9;
+}
+
+/* Progress */
+.progress-wrap{margin:1.8rem 0 1.2rem}
+.progress-text{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.progress{
+  width:100%;
+  height:8px;
+  background:rgba(255,255,255,.15);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  animation:load 7s linear forwards;
+}
+@keyframes load{to{width:100%}}
+
+.countdown{
+  font-size:.8rem;
+  opacity:.7;
+  margin-bottom:1.6rem;
+}
+
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.cta{
+  padding:.95rem 1.6rem;
+  border-radius:999px;
+  font-weight:800;
+  text-decoration:none;
+  transition:.25s;
+}
+
+.cta.primary{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#020617;
+}
+
+.cta.secondary{
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+}
+
+.cta:hover{transform:translateY(-2px)}
+
+/* Preview */
+.preview{
+  margin-top:1.8rem;
+  padding:10px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.2);
+  animation:float 5s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+.preview img{
+  width:100%;
+  border-radius:14px;
+}
+
+footer{
+  margin-top:2rem;
+  font-size:.7rem;
+  opacity:.55;
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow-ring"></div>
+
+<div class="card">
+  <div class="code">404</div>
+
+  <div class="status">Page Moved Permanently</div>
+
+  <h1>Page Not Found</h1>
+  <p>
+    The page you’re looking for no longer exists.
+    We’ve permanently moved to a new platform.
+  </p>
+
+  <div class="progress-wrap">
+    <div class="progress-text">Taking you to the new platform…</div>
+    <div class="progress"><span></span></div>
+  </div>
+
+  <div class="countdown">
+    Redirecting in <b><span id="time">7</span></b> seconds
+  </div>
+
+  <div class="actions">
+    <a class="cta primary" href="https://paygapp.site">🚀 Go to New Platform</a>
+    <a class="cta secondary" href="https://apk.e-droid.net/apk/app3410650-b1wdix.apk?v=1">
+      📲 Download Android App
+    </a>
+  </div>
+
+  <div class="preview">
+    <img src="/Images/screenshoot.png" alt="New PAYG Platform Preview">
+  </div>
+
+  <footer>© 2026 • PAYG APP</footer>
+</div>
+
+<script>
+let time = 7;
+const el = document.getElementById("time");
+
+const timer = setInterval(() => {
+  time--;
+  el.textContent = time;
+  if (time <= 0) {
+    clearInterval(timer);
+    window.location.href = "https://paygapp.site";
+  }
+}, 1000);
+</script>
+
+</body>
+</html>
