@@ -1,195 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EMBA PAYG & ECW</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" /> 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", sans-serif;
-      background-image: url(/Images/Key.webp);
-      overflow: hidden;
-      color: white;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: fadeIn 1.2s ease-in-out;
-    }
-    
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Page Moved</title>
 
-    .container {
-      text-align: center;
-      max-width: 520px;
-      padding: 40px;
-      background: rgba(12, 0, 0, 0.082);
-      border-radius: 30px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 60px rgba(255, 215, 0, 0.25);
-      animation: floatUp 1.3s ease-out;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-    }
-
-    #quarter, #month {
-      margin: 5px 0;
-      font-size: 1.2rem;
-      text-shadow: 1px 1px 5px rgb(252, 4, 4);
-    }
-
-     #greeting {
-font-size: 1.5rem;
-position: absolute;
-top: 20px;
-right: 20px;
-margin: 0;
-font-weight: 700;
-text-shadow: 1px 1px 5px rgba(28, 3, 252, 0.986);
-text-align: right;
+<style>
+:root{
+  --primary:#0ea5e9;
+  --accent:#38bdf8;
+  --bg-dark:#020617;
+  --glass:rgba(2,6,23,.75);
+  --border:rgba(255,255,255,.15);
 }
 
-    #time {
-      margin-top: 20px;
-      font-size: 2.5rem;
-      font-weight: bold;
-      letter-spacing: 3px;
-      text-shadow: 1px 1px 5px rgb(28, 3, 252);
-    }
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#020617,#000);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Inter,system-ui;
+  color:#fff;
+  overflow:hidden;
+}
 
-    .btn-box {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
+.glow-ring{
+  position:absolute;
+  width:560px;
+  height:560px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,var(--primary),transparent);
+  filter:blur(90px);
+  opacity:.3;
+  animation:spin 12s linear infinite;
+}
 
-    button {
-      padding: 14px 30px;
-      border: none;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 400;
-      cursor: pointer;
-      transition: 0.3s;
-      letter-spacing: 1px;
-      box-shadow: 0 0 9px rgba(10, 0, 0, 0.979);
-    }
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    .login {
-      background: linear-gradient(45deg, #ffd700, #ffac00);
-      color: #000;
-      text-transform: uppercase;
-    }
+.card{
+  position:relative;
+  z-index:2;
+  max-width:560px;
+  width:92%;
+  padding:2.8rem;
+  border-radius:28px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  text-align:center;
+  box-shadow:0 40px 120px rgba(0,0,0,.6);
+}
 
-    .register {
-      background: linear-gradient(45deg, #ffffff, #dcdcdc);
-      color: #000;
-      text-transform: uppercase;
-    }
+.status{
+  display:inline-flex;
+  padding:.45rem 1.1rem;
+  border-radius:999px;
+  font-size:.75rem;
+  font-weight:700;
+  background:rgba(14,165,233,.15);
+  color:var(--primary);
+}
 
-    button:hover {
-      transform: scale(1.12) translateY(-3px);
-      box-shadow: 0 0 6px rgb(0, 26, 255);
-    }
-  @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+h1{
+  margin:1.2rem 0 .8rem;
+  font-size:2.1rem;
+  font-weight:800;
+}
 
-    @keyframes slideUp {
-      from { transform: translateY(40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-  @keyframes floatUp {
-      from { opacity: 0; transform: translateY(60px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+p{
+  font-size:1rem;
+  line-height:1.7;
+  opacity:.9;
+}
 
-    /* Animated background glow */
-    body::before {
-      content: "";
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(2, 0, 10, 0.986), transparent 70%);
-      top: -100px;
-      left: -80px;
-      filter: blur(50px);
-      animation: glow 6s infinite alternate ease-in-out;
-    }
+/* Progress */
+.progress-wrap{margin:1.8rem 0 1.2rem}
+.progress-text{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.progress{
+  width:100%;
+  height:8px;
+  background:rgba(255,255,255,.15);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  animation:load 8s linear forwards;
+}
+@keyframes load{to{width:100%}}
 
-    @keyframes glow {
-      from { transform: scale(1); opacity: 0.7; }
-      to { transform: scale(1.3); opacity: 1; }
-    }
-  </style>
+.countdown{
+  font-size:.8rem;
+  opacity:.7;
+  margin-bottom:1.6rem;
+}
+
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:1.4rem;
+}
+
+.cta{
+  padding:.95rem 1.6rem;
+  border-radius:999px;
+  font-weight:800;
+  text-decoration:none;
+  transition:.25s;
+}
+
+.cta.primary{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#020617;
+}
+
+.cta.secondary{
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+}
+
+.cta:hover{transform:translateY(-2px)}
+
+/* 📸 Image Preview */
+.preview{
+  margin-top:1.8rem;
+  border-radius:20px;
+  padding:10px;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.2);
+  animation:floatImg 5s ease-in-out infinite;
+}
+
+@keyframes floatImg{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+.preview img{
+  width:100%;
+  border-radius:14px;
+  display:block;
+}
+
+.preview span{
+  display:block;
+  margin-top:6px;
+  font-size:.72rem;
+  opacity:.6;
+}
+
+footer{
+  margin-top:2rem;
+  font-size:.7rem;
+  opacity:.55;
+}
+</style>
 </head>
+
 <body>
-  <h1 id="greeting">Loading...</h1>
-  <div class="container">
-    <p id="quarter"></p>
-    <p id="month"></p>
-    <div id="time">--:--:--</div>
 
-    <div class="btn-box">
-      <button class="login" onclick="window.location.href='pages/signin.html'">Login</button>
-      <button class="register" onclick="window.location.href='pages/signup.html'">Register</button>
-    </div>
+<div class="glow-ring"></div>
 
-    <p id="notification" style="margin-top: 20px; text-decoration: underline; cursor: pointer;">Click for Notification</p>
+<div class="card">
+  <div class="status">➡ Page Moved Permanently</div>
+
+  <h1>This Page Has Moved</h1>
+
+  <div class="progress-wrap">
+    <div class="progress-text">Redirecting you to the new platform…</div>
+    <div class="progress"><span></span></div>
   </div>
 
-  <script>
-    function getGreeting() {
-      const hours = new Date().getHours();
-      if (hours < 12) return "Good morning";
-      if (hours < 18) return "Good afternoon";
-      return "Good evening";
-    }
+  <div class="countdown">
+    Redirecting in <b><span id="time">8</span></b> seconds
+  </div>
 
-    function getQuarterAndMonth() {
-      const month = new Date().getMonth();
-      const quarters = ["Quarter One", "Quarter Two", "Quarter Three", "Quarter Four"];
-      const quarter = quarters[Math.floor(month / 3)];
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      return { quarter, month: monthNames[month] };
-    }
+  <div class="actions">
+    <a class="cta primary" href="https://paygapp.site">🚀 Go to New Platform</a>
+    <a class="cta secondary" href="https://apk.e-droid.net/apk/app3410650-b1wdix.apk?v=1">📲 Download Android App</a>
+  </div>
 
-    function getCurrentDate() {
-      return new Date().toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      });
-    }
+  <!-- 📸 IMAGE PREVIEW -->
+  <div class="preview">
+    <img src="/Images/screenshoot.png" alt="New PAYG Platform Preview">
+    <span>Preview of the new PAYG platform</span>
+  </div>
 
-    function updateDigitalClock() {
-      const now = new Date();
-      const hrs = String(now.getHours()).padStart(2, '0');
-      const mins = String(now.getMinutes()).padStart(2, '0');
-      const secs = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById("time").textContent = `${hrs}:${mins}:${secs}`;
-    }
+  <footer>© 2026 • PAYG APP</footer>
+</div>
 
-    function displayGreeting() {
-      document.getElementById("greeting").textContent = `${getGreeting()}, User!`;
-      const { quarter } = getQuarterAndMonth();
-      document.getElementById("quarter").textContent = `We're in ${quarter}`;
-      document.getElementById("month").textContent = getCurrentDate();
-      document.getElementById("notification").addEventListener("click", () => {
-        alert("Hello! Please kindly report today before you close. Thank you.");
-      });
-    }
+<script>
+let time = 15;
+const el = document.getElementById("time");
 
-    window.onload = () => {
-      displayGreeting();
-      updateDigitalClock();
-      setInterval(updateDigitalClock, 1000);
-    };
-  </script>
+const t = setInterval(() => {
+  time--;
+  el.textContent = time;
+  if (time <= 0) {
+    clearInterval(t);
+    window.location.href = "https://paygapp.site";
+  }
+}, 800);
+</script>
+
 </body>
 </html>
