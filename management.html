@@ -1,280 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADMIN DASHBOARD</title>
-
-<!-- Google Fonts & Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Page Moved</title>
 
 <style>
-    :root {
-        --gold: #FFD700;
-        --bg-dark: #0a0a0a;
-        --card-dark: #111;
-        --text-dark: #fff;
-        --bg-light: #f9f9f9;
-        --card-light: #fff;
-        --text-light: #111;
-        --border-radius: 15px;
-    }
+:root{
+  --primary:#0ea5e9;
+  --accent:#38bdf8;
+  --bg-dark:#020617;
+  --glass:rgba(2,6,23,.75);
+  --border:rgba(255,255,255,.15);
+}
 
-    [data-theme="dark"] {
-        --bg: var(--bg-dark);
-        --card-bg: var(--card-dark);
-        --text: var(--text-dark);
-        --btn-bg: #000;
-        --btn-text: var(--gold);
-        --btn-border: var(--gold);
-    }
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#020617,#000);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Inter,system-ui;
+  color:#fff;
+  overflow:hidden;
+}
 
-    [data-theme="light"] {
-        --bg: var(--bg-light);
-        --card-bg: var(--card-light);
-        --text: var(--text-light);
-        --btn-bg: #fff;
-        --btn-text: var(--text-light);
-        --btn-border: #ccc;
-    }
+.glow-ring{
+  position:absolute;
+  width:560px;
+  height:560px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,var(--primary),transparent);
+  filter:blur(90px);
+  opacity:.3;
+  animation:spin 12s linear infinite;
+}
 
-    body {
-        margin: 0;
-        font-family: 'Roboto', Arial, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        transition: background 0.3s, color 0.3s;
-    }
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    header {
-        padding: 20px;
-        background: var(--card-bg);
-        text-align: center;
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--gold);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        position: relative;
-    }
+.card{
+  position:relative;
+  z-index:2;
+  max-width:560px;
+  width:92%;
+  padding:2.8rem;
+  border-radius:28px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  text-align:center;
+  box-shadow:0 40px 120px rgba(0,0,0,.6);
+}
 
-    .theme-toggle {
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        cursor: pointer;
-        font-size: 1.2rem;
-        color: var(--gold);
-        border: 2px solid var(--gold);
-        border-radius: 50%;
-        padding: 8px;
-        background: var(--card-bg);
-        transition: 0.3s;
-    }
-    .theme-toggle:hover {
-        background: var(--gold);
-        color: var(--card-bg);
-    }
+.status{
+  display:inline-flex;
+  padding:.45rem 1.1rem;
+  border-radius:999px;
+  font-size:.75rem;
+  font-weight:700;
+  background:rgba(14,165,233,.15);
+  color:var(--primary);
+}
 
-    .container {
-        padding: 20px;
-        max-width: 1100px;
-        margin: auto;
-    }
+h1{
+  margin:1.2rem 0 .8rem;
+  font-size:2.1rem;
+  font-weight:800;
+}
 
-    h2 {
-        color: var(--gold);
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 1.5rem;
-    }
+p{
+  font-size:1rem;
+  line-height:1.7;
+  opacity:.9;
+}
 
-    .sheet-card {
-        background: var(--card-bg);
-        padding: 25px 20px;
-        border-radius: var(--border-radius);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        margin-bottom: 30px;
-        transition: transform 0.2s;
-    }
-    .sheet-card:hover {
-        transform: translateY(-5px);
-    }
+/* Progress */
+.progress-wrap{margin:1.8rem 0 1.2rem}
+.progress-text{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.progress{
+  width:100%;
+  height:8px;
+  background:rgba(255,255,255,.15);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  animation:load 8s linear forwards;
+}
+@keyframes load{to{width:100%}}
 
-    .btn {
-        background: var(--btn-bg);
-        border: 2px solid var(--btn-border);
-        padding: 12px 20px;
-        border-radius: 10px;
-        text-align: center;
-        font-size: 1rem;
-        color: var(--btn-text);
-        font-weight: bold;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 15px;
-        transition: 0.3s;
-    }
-    .btn:hover {
-        background: var(--gold);
-        color: var(--card-bg);
-        border-color: var(--gold);
-    }
+.countdown{
+  font-size:.8rem;
+  opacity:.7;
+  margin-bottom:1.6rem;
+}
 
-    .value-box {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        margin-top: 15px;
-    }
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:1.4rem;
+}
 
-    .value {
-        background: var(--card-bg);
-        padding: 20px;
-        border-radius: 12px;
-        border: 2px solid var(--gold);
-        min-width: 160px;
-        text-align: center;
-        flex: 1;
-        transition: transform 0.2s;
-    }
-    .value:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
+.cta{
+  padding:.95rem 1.6rem;
+  border-radius:999px;
+  font-weight:800;
+  text-decoration:none;
+  transition:.25s;
+}
 
-    .value span {
-        display: block;
-        font-size: 1.5rem;
-        margin-top: 5px;
-        color: var(--gold);
-        font-weight: bold;
-    }
+.cta.primary{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#020617;
+}
 
-    @media (max-width: 768px) {
-        header {
-            font-size: 1.5rem;
-        }
-        .value-box {
-            flex-direction: column;
-            gap: 15px;
-        }
-        .value {
-            min-width: 60%;
-        }
-    }
+.cta.secondary{
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+}
 
+.cta:hover{transform:translateY(-2px)}
+
+/* 📸 Image Preview */
+.preview{
+  margin-top:1.8rem;
+  border-radius:20px;
+  padding:10px;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.2);
+  animation:floatImg 5s ease-in-out infinite;
+}
+
+@keyframes floatImg{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+.preview img{
+  width:100%;
+  border-radius:14px;
+  display:block;
+}
+
+.preview span{
+  display:block;
+  margin-top:6px;
+  font-size:.72rem;
+  opacity:.6;
+}
+
+footer{
+  margin-top:2rem;
+  font-size:.7rem;
+  opacity:.55;
+}
 </style>
 </head>
-<body data-theme="dark">
 
-<header>
-    ADMIN DASHBOARD
-    <i class="fas fa-adjust theme-toggle" id="themeToggle" title="Toggle Theme"></i>
-</header>
+<body>
 
-<div class="container">
+<div class="glow-ring"></div>
 
-    <!-- PAYG REGISTRATION -->
-    <div class="sheet-card">
-        <h2><i class="fas fa-file-invoice-dollar"></i> PAYG REGISTRATION</h2>
+<div class="card">
+  <div class="status">➡ Page Moved Permanently</div>
 
-        <a class="btn" target="_blank"
-           href="https://docs.google.com/spreadsheets/d/1_p8XuIJteYa8SK3mAqQJS8h9vUeimRrvgX3q3sqQPfU/edit?gid=418457741#gid=418457741">
-           <i class="fas fa-external-link-alt"></i> Open Sheet
-        </a>
+  <h1>This Page Has Moved</h1>
 
-        <div class="value-box">
-            <div class="value">monthly Total <span id="paygRegWeekly">Loading...</span></div>
-            <div class="value">Year to Date Total <span id="paygRegMonthly">Loading...</span></div>
-        </div>
-    </div>
+  <div class="progress-wrap">
+    <div class="progress-text">Redirecting you to the new platform…</div>
+    <div class="progress"><span></span></div>
+  </div>
 
-    <!-- ECW COMMISSION -->
-    <div class="sheet-card">
-        <h2><i class="fas fa-money-bill-wave"></i> ECW COMMISSION</h2>
+  <div class="countdown">
+    Redirecting in <b><span id="time">8</span></b> seconds
+  </div>
 
-        <a class="btn" target="_blank"
-           href="https://docs.google.com/spreadsheets/d/1LUnxx0KUUGfDHVOz07vdFeCv6Zo6ZxwuH0nDT4QuhQ0/edit?gid=1089017059#gid=1089017059">
-           <i class="fas fa-external-link-alt"></i> Open Sheet
-        </a>
+  <div class="actions">
+    <a class="cta primary" href="https://paygapp.site">🚀 Go to New Platform</a>
+    <a class="cta secondary" href="https://apk.e-droid.net/apk/app3410650-b1wdix.apk?v=1">📲 Download Android App</a>
+  </div>
 
-        <div class="value-box">
-            <div class="value">Weekly Total <span id="ecwWeekly">Loading...</span></div>
-            <div class="value">Monthly Total <span id="ecwMonthly">Loading...</span></div>
-        </div>
-    </div>
+  <!-- 📸 IMAGE PREVIEW -->
+  <div class="preview">
+    <img src="/Images/screenshoot.png" alt="New PAYG Platform Preview">
+    <span>Preview of the new PAYG platform</span>
+  </div>
 
-    <!-- PAYG COMMISSION -->
-    <div class="sheet-card">
-        <h2><i class="fas fa-chart-line"></i> PAYG COMMISSION</h2>
-
-        <a class="btn" target="_blank"
-           href="https://docs.google.com/spreadsheets/d/1n5fNnbm5YU6GUwZbEjn6Lzaqrtz5lKOoUOZsyzQX8QI/edit?gid=154487338#gid=154487338">
-           <i class="fas fa-external-link-alt"></i> Open Sheet
-        </a>
-
-        <div class="value-box">
-            <div class="value">Weekly Total <span id="paygComWeekly">Loading...</span></div>
-            <div class="value">Monthly Total <span id="paygComMonthly">Loading...</span></div>
-        </div>
-    </div>
-
+  <footer>© 2026 • PAYG APP</footer>
 </div>
 
 <script>
-/* FUNCTION TO LOAD EXACT CELL VALUES */
-async function loadCellValue(fileId, gid, range, targetId) {
-    try {
-        const url = `https://docs.google.com/spreadsheets/d/${fileId}/export?format=csv&gid=${gid}&range=${range}`;
-        const res = await fetch(url);
-        const text = await res.text();
+let time = 15;
+const el = document.getElementById("time");
 
-        document.getElementById(targetId).innerText = text.trim() || "0";
-    } catch (e) {
-        document.getElementById(targetId).innerText = "Error";
-    }
-}
-
-/* --------------------------
-   PAYG REGISTRATION CELLS
---------------------------- */
-loadCellValue("1_p8XuIJteYa8SK3mAqQJS8h9vUeimRrvgX3q3sqQPfU",
-              "0", "N14", "paygRegWeekly");
-
-loadCellValue("1_p8XuIJteYa8SK3mAqQJS8h9vUeimRrvgX3q3sqQPfU",
-              "0", "G8", "paygRegMonthly");
-
-/* --------------------------
-   ECW COMMISSION CELLS
---------------------------- */
-loadCellValue("1LUnxx0KUUGfDHVOz07vdFeCv6Zo6ZxwuH0nDT4QuhQ0",
-              "1089017059", "T7", "ecwWeekly");
-
-loadCellValue("1LUnxx0KUUGfDHVOz07vdFeCv6Zo6ZxwuH0nDT4QuhQ0",
-              "1089017059", "L5", "ecwMonthly");
-
-/* --------------------------
-   PAYG COMMISSION CELLS
---------------------------- */
-loadCellValue("1n5fNnbm5YU6GUwZbEjn6Lzaqrtz5lKOoUOZsyzQX8QI",
-              "154487338", "B26", "paygComWeekly");
-
-loadCellValue("1n5fNnbm5YU6GUwZbEjn6Lzaqrtz5lKOoUOZsyzQX8QI",
-              "154487338", "F19", "paygComMonthly");
-
-/* THEME TOGGLE */
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-    const body = document.body;
-    const currentTheme = body.getAttribute('data-theme');
-    body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-});
+const t = setInterval(() => {
+  time--;
+  el.textContent = time;
+  if (time <= 0) {
+    clearInterval(t);
+    window.location.href = "https://paygapp.site";
+  }
+}, 800);
 </script>
 
 </body>
